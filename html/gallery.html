@@ -1,0 +1,1051 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الصور والفيديوهات | روضة جيل الإبداع</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ====== إعدادات عامة ====== */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --secondary-color: #db2777;
+            --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.12);
+            --shadow-premium: 0 30px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 10000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ====== شريط الإعلانات ====== */
+        .urgent-ticker-container {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+        }
+        .urgent-ticker-text {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: tickerLoop 25s linear infinite;
+        }
+        @keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+        .urgent-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .urgent-badge i { margin-left: 6px; }
+        .announcement-text {
+            display: inline-block;
+            padding-right: 20px;
+            flex-shrink: 0;
+        }
+        .announcement-text i { margin-left: 4px; }
+
+        /* ====== الهيدر ====== */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* ====== سلايدر علوي ====== */
+        .hero-slider-mini {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            margin: 0;
+        }
+        .hero-slider-mini .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            z-index: 1;
+        }
+        .hero-slider-mini .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        .hero-slider-mini .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-slider-mini .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.3), rgba(30, 27, 75, 0.8));
+            z-index: 3;
+        }
+        .hero-slider-mini .slide-content {
+            position: absolute;
+            bottom: 80px;
+            right: 60px;
+            z-index: 4;
+            color: #fff;
+            max-width: 500px;
+        }
+        .hero-slider-mini .slide-content h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+        .hero-slider-mini .slide-content p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+        .hero-slider-mini .slide-content .slide-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .hero-slider-mini .slider-dots-mini {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            gap: 12px;
+        }
+        .hero-slider-mini .slider-dots-mini span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .hero-slider-mini .slider-dots-mini span.active {
+            background: #fff;
+            width: 36px;
+            border-radius: 10px;
+        }
+        .hero-slider-mini .slider-arrow-mini {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-slider-mini .slider-arrow-mini:hover {
+            background: #fff;
+            color: var(--text-primary);
+        }
+        .hero-slider-mini .slider-arrow-mini.prev {
+            right: 20px;
+        }
+        .hero-slider-mini .slider-arrow-mini.next {
+            left: 20px;
+        }
+
+        /* ====== شبكة المعرض (Masonry Style) ====== */
+        .gallery-masonry {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery-masonry .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .gallery-masonry .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+        }
+        .gallery-masonry .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+        .gallery-masonry .section-header p {
+            color: var(--text-muted);
+            margin-top: 16px;
+            font-size: 1.1rem;
+        }
+
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            grid-auto-flow: dense;
+        }
+        .masonry-grid .masonry-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--glass-border);
+        }
+        .masonry-grid .masonry-item:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: var(--shadow-premium);
+            z-index: 2;
+        }
+        .masonry-grid .masonry-item:nth-child(1) { grid-row: span 2; }
+        .masonry-grid .masonry-item:nth-child(4) { grid-column: span 2; }
+        .masonry-grid .masonry-item:nth-child(6) { grid-row: span 2; }
+
+        .masonry-grid .masonry-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+            min-height: 200px;
+        }
+        .masonry-grid .masonry-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .masonry-grid .masonry-item .item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 40%, rgba(0, 0, 0, 0.7));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px 24px;
+            color: #fff;
+        }
+        .masonry-grid .masonry-item:hover .item-overlay {
+            opacity: 1;
+        }
+        .masonry-grid .masonry-item .item-overlay h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .masonry-grid .masonry-item .item-overlay p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        .masonry-grid .masonry-item .item-overlay .item-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            align-self: flex-start;
+        }
+        .masonry-grid .masonry-item .item-overlay .item-tag.video {
+            background: var(--secondary-color);
+        }
+
+        .masonry-grid .masonry-item .item-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 3;
+        }
+        .masonry-grid .masonry-item .item-badge.video {
+            background: var(--secondary-color);
+        }
+
+        /* ====== Lightbox ====== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .lightbox-content {
+            max-width: 900px;
+            max-height: 80vh;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        .lightbox-content img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        .lightbox-content .lightbox-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 30px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: #fff;
+        }
+        .lightbox-content .lightbox-info h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        .lightbox-content .lightbox-info p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .lightbox-nav.prev { right: 20px; }
+        .lightbox-nav.next { left: 20px; }
+
+        /* ====== الفوتر ====== */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px 20px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .footer-logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-light);
+        }
+        .footer-content p {
+            max-width: 600px;
+            margin: 0 auto 16px;
+            font-size: 0.95rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ====== تجاوب ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 16px;
+                border-top: 1px solid var(--glass-border);
+            }
+            nav ul.open { display: flex; }
+            nav ul li a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            .hero-slider-mini { height: 350px; }
+            .hero-slider-mini .slide-content {
+                bottom: 40px;
+                right: 20px;
+                max-width: 90%;
+            }
+            .hero-slider-mini .slide-content h2 { font-size: 1.5rem; }
+            .hero-slider-mini .slider-arrow-mini {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .hero-slider-mini .slider-arrow-mini.prev { right: 10px; }
+            .hero-slider-mini .slider-arrow-mini.next { left: 10px; }
+            .masonry-grid { grid-template-columns: 1fr; }
+            .masonry-grid .masonry-item:nth-child(1) { grid-row: span 1; }
+            .masonry-grid .masonry-item:nth-child(4) { grid-column: span 1; }
+            .masonry-grid .masonry-item:nth-child(6) { grid-row: span 1; }
+            .lightbox { padding: 20px; }
+            .lightbox-nav { width: 40px; height: 40px; font-size: 1.2rem; }
+            .lightbox-close { width: 40px; height: 40px; font-size: 1.2rem; top: 10px; left: 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-slider-mini { height: 280px; }
+            .hero-slider-mini .slide-content h2 { font-size: 1.2rem; }
+            .hero-slider-mini .slide-content p { font-size: 0.9rem; }
+            .hero-slider-mini .slider-dots-mini span { width: 10px; height: 10px; }
+            .hero-slider-mini .slider-dots-mini span.active { width: 28px; }
+        }
+
+        /* ====== الوضع الليلي ====== */
+        [data-theme="dark"] .masonry-grid .masonry-item {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ====== شريط الإعلانات ====== -->
+    <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+        <div class="urgent-ticker-text">
+            <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
+            <span class="announcement-text">
+                <i class="fa-regular fa-gem"></i> خصم 20% للتسجيل المبكر |
+                <i class="fa-regular fa-users"></i> خصم 15% للأشقاء |
+                <i class="fa-regular fa-bus"></i> توصيل مجاني للمناطق القريبة |
+                <i class="fa-regular fa-gift"></i> حقيبة مدرسية مجانية لأول 30 طفلاً |
+                <i class="fa-regular fa-star"></i> التسجيل مفتوح للعام الدراسي الجديد 2026 - 2027
+            </span>
+        </div>
+    </div>
+
+    <!-- ====== الهيدر ====== -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="programs.html">البرامج</a></li>
+                <li><a href="activities.html">الأنشطة</a></li>
+                <li><a href="gallery.html" class="active">المعرض</a></li>
+                <li><a href="staff.html">الكادر</a></li>
+                <li><a href="pricing.html">الأسعار</a></li>
+                <li><a href="registration.html">التسجيل</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-btn" aria-label="تبديل الوضع الليلي">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== سلايدر علوي ====== -->
+        <div class="hero-slider-mini" id="heroSliderMini">
+            <div class="slide active">
+                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=80" alt="الأنشطة الصفية">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag"><i class="fa-regular fa-image"></i> صورة</span>
+                    <h2>تفاعل وإبداع داخل الصف</h2>
+                    <p>حصص التعلم باللعب واستكشاف الألوان المجسمة</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1400&q=80" alt="التكنولوجيا">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag"><i class="fa-regular fa-circle-play"></i> فيديو</span>
+                    <h2>المستكشف الرقمي الصغير</h2>
+                    <p>تفاعل الأطفال مع الألواح والمنطق البرمجي</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=1400&q=80" alt="الرحلات">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag"><i class="fa-regular fa-image"></i> صورة</span>
+                    <h2>الرحلة الاستكشافية السنوية</h2>
+                    <p>لحظات السعادة وسط المساحات الخضراء</p>
+                </div>
+            </div>
+            <button class="slider-arrow-mini prev" id="sliderPrevMini"><i class="fa-solid fa-chevron-right"></i></button>
+            <button class="slider-arrow-mini next" id="sliderNextMini"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="slider-dots-mini" id="sliderDotsMini">
+                <span class="active" data-index="0"></span>
+                <span data-index="1"></span>
+                <span data-index="2"></span>
+            </div>
+        </div>
+
+        <!-- ====== شبكة المعرض ====== -->
+        <div class="gallery-masonry">
+            <div class="section-header">
+                <h2>📸 ذكرياتنا الجميلة</h2>
+                <p>لحظات لا تُنسى من رحلة أطفالنا التعليمية والترفيهية</p>
+            </div>
+
+            <div class="masonry-grid" id="masonryGrid">
+
+                <!-- عنصر 1 -->
+                <div class="masonry-item" data-type="photo" data-title="تفاعل وإبداع داخل الصف" data-desc="حصص التعلم باللعب واستكشاف الألوان المجسمة" data-img="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80" alt="الأنشطة الصفية">
+                    <span class="item-badge"><i class="fa-solid fa-camera"></i> صورة</span>
+                    <div class="item-overlay">
+                        <span class="item-tag"><i class="fa-regular fa-image"></i> صورة</span>
+                        <h3>تفاعل وإبداع داخل الصف</h3>
+                        <p>حصص التعلم باللعب واستكشاف الألوان المجسمة</p>
+                    </div>
+                </div>
+
+                <!-- عنصر 2 -->
+                <div class="masonry-item" data-type="video" data-title="المستكشف الرقمي الصغير" data-desc="تفاعل الأطفال مع الألواح والمنطق البرمجي" data-img="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80">
+                    <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80" alt="التكنولوجيا">
+                    <span class="item-badge video"><i class="fa-solid fa-video"></i> فيديو</span>
+                    <div class="item-overlay">
+                        <span class="item-tag video"><i class="fa-regular fa-circle-play"></i> فيديو</span>
+                        <h3>المستكشف الرقمي الصغير</h3>
+                        <p>تفاعل الأطفال مع الألواح والمنطق البرمجي</p>
+                    </div>
+                </div>
+
+                <!-- عنصر 3 -->
+                <div class="masonry-item" data-type="photo" data-title="الرحلة الاستكشافية السنوية" data-desc="لحظات السعادة وسط المساحات الخضراء" data-img="https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=800&q=80">
+                    <img src="https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=800&q=80" alt="الرحلات">
+                    <span class="item-badge"><i class="fa-solid fa-camera"></i> صورة</span>
+                    <div class="item-overlay">
+                        <span class="item-tag"><i class="fa-regular fa-image"></i> صورة</span>
+                        <h3>الرحلة الاستكشافية السنوية</h3>
+                        <p>لحظات السعادة وسط المساحات الخضراء</p>
+                    </div>
+                </div>
+
+                <!-- عنصر 4 -->
+                <div class="masonry-item" data-type="photo" data-title="ورش عمل الرسم والتلوين" data-desc="إطلاق العنان لمخيلات الأطفال" data-img="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80" alt="الورش الفنية">
+                    <span class="item-badge"><i class="fa-solid fa-camera"></i> صورة</span>
+                    <div class="item-overlay">
+                        <span class="item-tag"><i class="fa-regular fa-image"></i> صورة</span>
+                        <h3>ورش عمل الرسم والتلوين</h3>
+                        <p>إطلاق العنان لمخيلات الأطفال</p>
+                    </div>
+                </div>
+
+                <!-- عنصر 5 -->
+                <div class="masonry-item" data-type="video" data-title="البطولة الحركية" data-desc="الروح الجماعية والتمارين المبتكرة" data-img="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80">
+                    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80" alt="الرياضة">
+                    <span class="item-badge video"><i class="fa-solid fa-video"></i> فيديو</span>
+                    <div class="item-overlay">
+                        <span class="item-tag video"><i class="fa-regular fa-circle-play"></i> فيديو</span>
+                        <h3>البطولة الحركية</h3>
+                        <p>الروح الجماعية والتمارين المبتكرة</p>
+                    </div>
+                </div>
+
+                <!-- عنصر 6 -->
+                <div class="masonry-item" data-type="photo" data-title="تخريج فوج الإبداع" data-desc="فرحة الأهالي والأطفال بقبعات التخرج" data-img="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80" alt="التخرج">
+                    <span class="item-badge"><i class="fa-solid fa-camera"></i> صورة</span>
+                    <div class="item-overlay">
+                        <span class="item-tag"><i class="fa-regular fa-image"></i> صورة</span>
+                        <h3>تخريج فوج الإبداع</h3>
+                        <p>فرحة الأهالي والأطفال بقبعات التخرج</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ====== Lightbox ====== -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose"><i class="fa-solid fa-xmark"></i></button>
+        <button class="lightbox-nav prev" id="lightboxPrev"><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="lightbox-nav next" id="lightboxNext"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightboxImg">
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== الفوتر ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <p>نحن نؤمن بأن كل طفل هو مبدع بطبعه، ونعمل على توفير البيئة المثالية لصقل مواهبه وتنمية قدراته.</p>
+            <div class="social-links">
+                <a href="#" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="يوتيوب"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2026 روضة جيل الإبداع | تم التطوير بكل إتقان</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // ================================================================
+        //  سكريبت صفحة المعرض - تصميم جديد
+        // ================================================================
+        (function() {
+            'use strict';
+
+            // ====== 1. شريط التقدم ======
+            var progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+            }
+
+            // ====== 2. الوضع الليلي ======
+            var darkToggle = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (darkToggle) {
+                var icon = darkToggle.querySelector('i');
+                if (currentTheme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                } else {
+                    icon.className = 'fas fa-moon';
+                }
+
+                darkToggle.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    if (newTheme === 'dark') {
+                        icon.className = 'fas fa-sun';
+                    } else {
+                        icon.className = 'fas fa-moon';
+                    }
+                });
+            }
+
+            // ====== 3. زر القائمة المتنقلة ======
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+            }
+
+            // ====== 4. سلايدر علوي ======
+            var slides = document.querySelectorAll('#heroSliderMini .slide');
+            var dots = document.querySelectorAll('#sliderDotsMini span');
+            var prevBtn = document.getElementById('sliderPrevMini');
+            var nextBtn = document.getElementById('sliderNextMini');
+            var currentSlide = 0;
+            var slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(function(s, i) {
+                    s.classList.toggle('active', i === index);
+                });
+                dots.forEach(function(d, i) {
+                    d.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                showSlide((currentSlide + 1) % slides.length);
+            }
+            function prevSlide() {
+                showSlide((currentSlide - 1 + slides.length) % slides.length);
+            }
+
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                startAutoSlide();
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    prevSlide();
+                    resetAutoSlide();
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    nextSlide();
+                    resetAutoSlide();
+                });
+            }
+
+            dots.forEach(function(dot, index) {
+                dot.addEventListener('click', function() {
+                    showSlide(index);
+                    resetAutoSlide();
+                });
+            });
+
+            startAutoSlide();
+
+            // ====== 5. Lightbox ======
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxTitle = document.getElementById('lightboxTitle');
+            var lightboxDesc = document.getElementById('lightboxDesc');
+            var lightboxClose = document.getElementById('lightboxClose');
+            var lightboxPrev = document.getElementById('lightboxPrev');
+            var lightboxNext = document.getElementById('lightboxNext');
+
+            var masonryItems = document.querySelectorAll('.masonry-item');
+            var currentIndex = 0;
+            var visibleItems = [];
+
+            function getVisibleItems() {
+                visibleItems = [];
+                masonryItems.forEach(function(item) {
+                    if (item.style.display !== 'none') {
+                        visibleItems.push(item);
+                    }
+                });
+                if (visibleItems.length === 0) {
+                    visibleItems = Array.from(masonryItems);
+                }
+            }
+
+            function openLightbox(index) {
+                getVisibleItems();
+                var item = visibleItems[index];
+                if (!item) return;
+                var img = item.querySelector('img');
+                var title = item.dataset.title;
+                var desc = item.dataset.desc;
+                currentIndex = index;
+
+                lightboxImg.src = img.src;
+                lightboxTitle.textContent = title;
+                lightboxDesc.textContent = desc;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function navigateLightbox(dir) {
+                getVisibleItems();
+                var newIndex = currentIndex + dir;
+                if (newIndex < 0) newIndex = visibleItems.length - 1;
+                if (newIndex >= visibleItems.length) newIndex = 0;
+                openLightbox(newIndex);
+            }
+
+            // فتح Lightbox عند النقر على العنصر
+            masonryItems.forEach(function(item, index) {
+                item.addEventListener('click', function() {
+                    openLightbox(index);
+                });
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === this) closeLightbox();
+            });
+
+            lightboxPrev.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateLightbox(-1);
+            });
+            lightboxNext.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateLightbox(1);
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') navigateLightbox(-1);
+                if (e.key === 'ArrowLeft') navigateLightbox(1);
+            });
+
+            // ====== 6. تأثيرات الظهور ======
+            var appearElements = document.querySelectorAll('.masonry-item');
+
+            var appearObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, index) {
+                    if (entry.isIntersecting) {
+                        setTimeout(function() {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        appearObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            appearElements.forEach(function(el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                appearObserver.observe(el);
+            });
+
+            console.log('✅ صفحة المعرض - التصميم الجديد جاهز!');
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1109 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأنشطة والفعاليات | روضة جيل الإبداع</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ====== إعدادات عامة ====== */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --secondary-color: #db2777;
+            --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.12);
+            --shadow-premium: 0 30px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 10000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ====== شريط الإعلانات ====== */
+        .urgent-ticker-container {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+        }
+        .urgent-ticker-text {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: tickerLoop 25s linear infinite;
+        }
+        @keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+        .urgent-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .urgent-badge i { margin-left: 6px; }
+        .announcement-text {
+            display: inline-block;
+            padding-right: 20px;
+            flex-shrink: 0;
+        }
+        .announcement-text i { margin-left: 4px; }
+
+        /* ====== الهيدر ====== */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* ====== هيرو ====== */
+        .activities-hero {
+            position: relative;
+            padding: 60px 24px 80px;
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+            min-height: 300px;
+        }
+        .activities-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+        }
+        .activities-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .activities-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+        }
+        .activities-hero h1 span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .activities-hero p {
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 12px auto 0;
+            font-size: 1.1rem;
+        }
+        .activities-hero .hero-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ====== العد التنازلي ====== */
+        .countdown-section {
+            max-width: 700px;
+            margin: -30px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .countdown-box {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px 30px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .countdown-box .countdown-label {
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .countdown-box .countdown-label i {
+            color: var(--accent-color);
+            margin-left: 8px;
+        }
+        .countdown-box .countdown-timer {
+            display: flex;
+            gap: 12px;
+        }
+        .countdown-box .countdown-timer .cd-unit {
+            text-align: center;
+        }
+        .countdown-box .countdown-timer .cd-unit .cd-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            min-width: 40px;
+            background: var(--bg-primary);
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
+        .countdown-box .countdown-timer .cd-unit .cd-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .countdown-box .countdown-event {
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        /* ====== الجدول الزمني ====== */
+        .timeline-section {
+            padding: 60px 24px;
+            background: var(--bg-primary);
+        }
+        .timeline-section .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .timeline-section .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+        }
+        .timeline-section .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 8px auto 0;
+            border-radius: 10px;
+        }
+        .timeline-section .section-header p {
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        .timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            padding-right: 40px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color), var(--accent-color));
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-right: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+            z-index: 2;
+            transition: 0.3s;
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.2);
+            background: var(--primary-color);
+        }
+        .timeline-item .tl-content {
+            background: var(--bg-card);
+            padding: 20px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s ease;
+        }
+        .timeline-item .tl-content:hover {
+            transform: translateX(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+        .timeline-item .tl-content .tl-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .timeline-item .tl-content .tl-header .tl-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .timeline-item .tl-content .tl-header .tl-date i {
+            margin-left: 4px;
+        }
+        .timeline-item .tl-content .tl-header .tl-tag {
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .timeline-item .tl-content h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .timeline-item .tl-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        .timeline-item .tl-content .tl-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+        .timeline-item .tl-content .tl-meta i {
+            margin-left: 4px;
+        }
+
+        /* ====== بطاقات الأنشطة (أسلوب البوكيمون) ====== */
+        .activities-cards {
+            padding: 60px 24px;
+            background: var(--bg-secondary);
+        }
+        .activities-cards .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .activities-cards .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+        .activities-cards .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 8px auto 0;
+            border-radius: 10px;
+        }
+        .activities-cards .section-header p {
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .activity-poke-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 28px 24px;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .activity-poke-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: 0.5s;
+        }
+        .activity-poke-card:hover::before {
+            transform: scale(1.5);
+        }
+        .activity-poke-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-premium);
+            border-color: var(--primary-color);
+        }
+        .activity-poke-card .card-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .activity-poke-card .card-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.2);
+            transition: 0.3s;
+        }
+        .activity-poke-card:hover .card-icon {
+            transform: rotate(-8deg) scale(1.05);
+        }
+        .activity-poke-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        .activity-poke-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 6px 0 12px;
+        }
+        .activity-poke-card .card-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+        .activity-poke-card .card-stats .stat {
+            background: var(--bg-primary);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .activity-poke-card .card-stats .stat i {
+            margin-left: 4px;
+        }
+        .activity-poke-card .card-progress {
+            margin-top: 12px;
+        }
+        .activity-poke-card .card-progress .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .activity-poke-card .card-progress .progress-track {
+            height: 6px;
+            background: var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .activity-poke-card .card-progress .progress-track .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        .activity-poke-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .activity-poke-card .card-footer .rating {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+        }
+        .activity-poke-card .card-footer .btn-join {
+            padding: 8px 24px;
+            border: none;
+            border-radius: 50px;
+            background: var(--primary-gradient);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .activity-poke-card .card-footer .btn-join:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        /* ====== الفوتر ====== */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px 20px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .footer-logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-light);
+        }
+        .footer-content p {
+            max-width: 600px;
+            margin: 0 auto 16px;
+            font-size: 0.95rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ====== تجاوب ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 16px;
+                border-top: 1px solid var(--glass-border);
+            }
+            nav ul.open { display: flex; }
+            nav ul li a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            .countdown-box {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px 20px;
+            }
+            .countdown-box .countdown-timer .cd-unit .cd-number {
+                font-size: 1.4rem;
+                min-width: 30px;
+            }
+            .timeline { padding-right: 20px; }
+            .timeline::before { right: 6px; }
+            .timeline-item { padding-right: 20px; }
+            .timeline-item::before { right: -4px; width: 16px; height: 16px; }
+            .timeline-item .tl-content { padding: 16px; }
+            .cards-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+        }
+
+        @media (max-width: 480px) {
+            .countdown-box .countdown-timer { gap: 8px; }
+            .countdown-box .countdown-timer .cd-unit .cd-number {
+                font-size: 1.2rem;
+                min-width: 24px;
+                padding: 2px 6px;
+            }
+            .activity-poke-card { padding: 20px 16px; }
+        }
+
+        /* ====== الوضع الليلي ====== */
+        [data-theme="dark"] .countdown-box {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .timeline-item .tl-content {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .activity-poke-card {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        [data-theme="dark"] .countdown-box .countdown-timer .cd-unit .cd-number {
+            background: var(--bg-primary);
+        }
+        [data-theme="dark"] .activity-poke-card .card-stats .stat {
+            background: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ====== شريط الإعلانات ====== -->
+    <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+        <div class="urgent-ticker-text">
+            <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
+            <span class="announcement-text">
+                <i class="fa-regular fa-gem"></i> خصم 20% للتسجيل المبكر |
+                <i class="fa-regular fa-users"></i> خصم 15% للأشقاء |
+                <i class="fa-regular fa-bus"></i> توصيل مجاني للمناطق القريبة |
+                <i class="fa-regular fa-gift"></i> حقيبة مدرسية مجانية لأول 30 طفلاً |
+                <i class="fa-regular fa-star"></i> التسجيل مفتوح للعام الدراسي الجديد 2026 - 2027
+            </span>
+        </div>
+    </div>
+
+    <!-- ====== الهيدر ====== -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="programs.html">البرامج</a></li>
+                <li><a href="activities.html" class="active">الأنشطة</a></li>
+                <li><a href="gallery.html">المعرض</a></li>
+                <li><a href="staff.html">الكادر</a></li>
+                <li><a href="pricing.html">الأسعار</a></li>
+                <li><a href="registration.html">التسجيل</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-btn" aria-label="تبديل الوضع الليلي">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== هيرو ====== -->
+        <section class="activities-hero">
+            <div class="activities-hero-content">
+                <h1>أنشطة <span>جيل الإبداع</span></h1>
+                <p>نصنع ذكريات لا تُنسى وننمي مهارات طفلك الاجتماعية والبدنية من خلال بيئة تفاعلية مليئة بالحيوية والمرح.</p>
+                <span class="hero-tag"><i class="fa-regular fa-calendar-circle-plus"></i> 25+ نشاط متنوع</span>
+            </div>
+        </section>
+
+        <!-- ====== العد التنازلي ====== -->
+        <div class="countdown-section">
+            <div class="countdown-box">
+                <div class="countdown-label">
+                    <i class="fa-regular fa-clock"></i>
+                    الفعالية القادمة
+                </div>
+                <div class="countdown-timer" id="countdownTimer">
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cdDays">00</span>
+                        <span class="cd-label">يوم</span>
+                    </div>
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cdHours">00</span>
+                        <span class="cd-label">ساعة</span>
+                    </div>
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cdMinutes">00</span>
+                        <span class="cd-label">دقيقة</span>
+                    </div>
+                    <div class="cd-unit">
+                        <span class="cd-number" id="cdSeconds">00</span>
+                        <span class="cd-label">ثانية</span>
+                    </div>
+                </div>
+                <div class="countdown-event">
+                    <i class="fa-regular fa-running"></i> الألعاب الرياضية
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== الجدول الزمني ====== -->
+        <section class="timeline-section">
+            <div class="section-header">
+                <h2>📅 أجندة الأنشطة</h2>
+                <p>تابع جدول أنشطتنا الأسبوعية واستعد للمشاركة</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="tl-content">
+                        <div class="tl-header">
+                            <span class="tl-date"><i class="fa-regular fa-calendar"></i> الأحد 15 يونيو</span>
+                            <span class="tl-tag" style="background:rgba(79,70,229,0.1);color:#4f46e5;">رياضي</span>
+                        </div>
+                        <h4>🏃 الألعاب الرياضية</h4>
+                        <p>مسابقات حركية وتمارين صباحية في ساحة الروضة</p>
+                        <div class="tl-meta">
+                            <span><i class="fa-regular fa-clock"></i> 11:00 صباحاً</span>
+                            <span><i class="fa-regular fa-user"></i> 20 طفل</span>
+                            <span><i class="fa-regular fa-star"></i> 4.9</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="tl-content">
+                        <div class="tl-header">
+                            <span class="tl-date"><i class="fa-regular fa-calendar"></i> الثلاثاء 17 يونيو</span>
+                            <span class="tl-tag" style="background:rgba(219,39,119,0.1);color:#db2777;">فني</span>
+                        </div>
+                        <h4>🎭 ورشة المسرح</h4>
+                        <p>تمثيل قصة تفاعلية مع الأطفال وتوزيع أدوار</p>
+                        <div class="tl-meta">
+                            <span><i class="fa-regular fa-clock"></i> 10:00 صباحاً</span>
+                            <span><i class="fa-regular fa-user"></i> 15 طفل</span>
+                            <span><i class="fa-regular fa-star"></i> 4.8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="tl-content">
+                        <div class="tl-header">
+                            <span class="tl-date"><i class="fa-regular fa-calendar"></i> الخميس 19 يونيو</span>
+                            <span class="tl-tag" style="background:rgba(245,158,11,0.1);color:#d97706;">علمي</span>
+                        </div>
+                        <h4>🧪 تجربة علمية</h4>
+                        <p>تجربة تفاعلية مع الألوان والمواد الطبيعية</p>
+                        <div class="tl-meta">
+                            <span><i class="fa-regular fa-clock"></i> 09:30 صباحاً</span>
+                            <span><i class="fa-regular fa-user"></i> 12 طفل</span>
+                            <span><i class="fa-regular fa-star"></i> 4.9</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="tl-content">
+                        <div class="tl-header">
+                            <span class="tl-date"><i class="fa-regular fa-calendar"></i> السبت 21 يونيو</span>
+                            <span class="tl-tag" style="background:rgba(16,185,129,0.1);color:#059669;">رحلة</span>
+                        </div>
+                        <h4>🌿 رحلة إلى الحديقة العامة</h4>
+                        <p>استكشاف الطبيعة والتعرف على النباتات والحيوانات</p>
+                        <div class="tl-meta">
+                            <span><i class="fa-regular fa-clock"></i> 08:30 صباحاً</span>
+                            <span><i class="fa-regular fa-user"></i> 30 طفل</span>
+                            <span><i class="fa-regular fa-star"></i> 4.7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== بطاقات الأنشطة ====== -->
+        <section class="activities-cards">
+            <div class="section-header">
+                <h2>🎯 اكتشف أنشطتنا</h2>
+                <p>اختر النشاط المناسب لطفلك واستمتع بتجربة فريدة</p>
+            </div>
+
+            <div class="cards-grid">
+
+                <!-- بطاقة 1 -->
+                <div class="activity-poke-card">
+                    <span class="card-badge" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">رياضي</span>
+                    <div class="card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                        <i class="fa-solid fa-running"></i>
+                    </div>
+                    <h3>الألعاب الرياضية</h3>
+                    <p>مسابقات حركية مبتكرة وتمارين صباحية لرفع اللياقة البدنية.</p>
+                    <div class="card-stats">
+                        <span class="stat"><i class="fa-regular fa-calendar"></i> يومياً</span>
+                        <span class="stat"><i class="fa-regular fa-clock"></i> 45 دقيقة</span>
+                        <span class="stat"><i class="fa-regular fa-user"></i> 20 طفل</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-label">
+                            <span>مكتمل</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 75%; background: linear-gradient(135deg, #6366f1, #4f46e5);"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.9 (24 تقييم)</span>
+                        <button class="btn-join">انضم الآن</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 2 -->
+                <div class="activity-poke-card">
+                    <span class="card-badge" style="background: linear-gradient(135deg, #ec4899, #db2777);">فني</span>
+                    <div class="card-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                        <i class="fa-solid fa-masks-theater"></i>
+                    </div>
+                    <h3>المسرح والفنون</h3>
+                    <p>ورش عمل مسرحية وقصصية لبناء شخصية قيادية واثقة.</p>
+                    <div class="card-stats">
+                        <span class="stat"><i class="fa-regular fa-calendar"></i> ثلاثاء</span>
+                        <span class="stat"><i class="fa-regular fa-clock"></i> 60 دقيقة</span>
+                        <span class="stat"><i class="fa-regular fa-user"></i> 15 طفل</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-label">
+                            <span>مكتمل</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 60%; background: linear-gradient(135deg, #ec4899, #db2777);"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.8 (18 تقييم)</span>
+                        <button class="btn-join">انضم الآن</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 3 -->
+                <div class="activity-poke-card">
+                    <span class="card-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">علمي</span>
+                    <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <h3>المستكشف الصغير</h3>
+                    <p>تجارب علمية بسيطة تثير شغف الفضول والاستكشاف.</p>
+                    <div class="card-stats">
+                        <span class="stat"><i class="fa-regular fa-calendar"></i> خميس</span>
+                        <span class="stat"><i class="fa-regular fa-clock"></i> 50 دقيقة</span>
+                        <span class="stat"><i class="fa-regular fa-user"></i> 12 طفل</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-label">
+                            <span>مكتمل</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(135deg, #f59e0b, #d97706);"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="rating"><i class="fa-solid fa-star"></i> 4.9 (20 تقييم)</span>
+                        <button class="btn-join">انضم الآن</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== الفوتر ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <p>نحن نؤمن بأن كل طفل هو مبدع بطبعه، ونعمل على توفير البيئة المثالية لصقل مواهبه وتنمية قدراته.</p>
+            <div class="social-links">
+                <a href="#" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="يوتيوب"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2026 روضة جيل الإبداع | تم التطوير بكل إتقان</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // ================================================================
+        //  سكريبت صفحة الأنشطة
+        // ================================================================
+        (function() {
+            'use strict';
+
+            // ====== 1. شريط التقدم ======
+            var progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+            }
+
+            // ====== 2. الوضع الليلي ======
+            var darkToggle = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (darkToggle) {
+                var icon = darkToggle.querySelector('i');
+                if (currentTheme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                } else {
+                    icon.className = 'fas fa-moon';
+                }
+
+                darkToggle.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    if (newTheme === 'dark') {
+                        icon.className = 'fas fa-sun';
+                    } else {
+                        icon.className = 'fas fa-moon';
+                    }
+                });
+            }
+
+            // ====== 3. زر القائمة المتنقلة ======
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+            }
+
+            // ====== 4. العد التنازلي ======
+            function startCountdown() {
+                var target = new Date('2026-06-15T11:00:00').getTime();
+
+                function update() {
+                    var now = new Date().getTime();
+                    var diff = target - now;
+
+                    if (diff <= 0) {
+                        document.getElementById('cdDays').textContent = '00';
+                        document.getElementById('cdHours').textContent = '00';
+                        document.getElementById('cdMinutes').textContent = '00';
+                        document.getElementById('cdSeconds').textContent = '00';
+                        return;
+                    }
+
+                    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+                    document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+                    document.getElementById('cdMinutes').textContent = String(minutes).padStart(2, '0');
+                    document.getElementById('cdSeconds').textContent = String(seconds).padStart(2, '0');
+                }
+
+                update();
+                setInterval(update, 1000);
+            }
+            startCountdown();
+
+            // ====== 5. تأثيرات الظهور ======
+            var appearElements = document.querySelectorAll('.timeline-item, .activity-poke-card');
+
+            var appearObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, index) {
+                    if (entry.isIntersecting) {
+                        setTimeout(function() {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 150);
+                        appearObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            appearElements.forEach(function(el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(40px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                appearObserver.observe(el);
+            });
+
+            console.log('✅ صفحة الأنشطة - التصميم الجديد جاهز!');
+        })();
+    </script>
+
+</body>
+</html>

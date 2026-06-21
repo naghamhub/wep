@@ -1,0 +1,1013 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البرامج التعليمية | روضة جيل الإبداع</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ====== إعدادات عامة ====== */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --secondary-color: #db2777;
+            --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.12);
+            --shadow-premium: 0 30px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 10000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ====== شريط الإعلانات ====== */
+        .urgent-ticker-container {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+        }
+        .urgent-ticker-text {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: tickerLoop 25s linear infinite;
+        }
+        @keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+        .urgent-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .urgent-badge i { margin-left: 6px; }
+        .announcement-text {
+            display: inline-block;
+            padding-right: 20px;
+            flex-shrink: 0;
+        }
+        .announcement-text i { margin-left: 4px; }
+
+        /* ====== الهيدر ====== */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* ====== هيرو ====== */
+        .programs-hero {
+            position: relative;
+            padding: 50px 24px 70px;
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+            min-height: 240px;
+        }
+        .programs-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .programs-hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 900;
+        }
+        .programs-hero h1 span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .programs-hero p {
+            opacity: 0.9;
+            max-width: 550px;
+            margin: 10px auto 0;
+            font-size: 1rem;
+        }
+        .programs-hero .collect-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .programs-hero .collect-badge i {
+            margin-left: 8px;
+            color: var(--accent-color);
+        }
+
+        /* ====== شبكة البطاقات ====== */
+        .cards-collection {
+            padding: 50px 24px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .cards-collection .collection-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .cards-collection .collection-header h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+        }
+        .cards-collection .collection-header h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 8px auto 0;
+            border-radius: 10px;
+        }
+        .cards-collection .collection-header p {
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* ====== البطاقة التذكارية ====== */
+        .trading-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 0;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        .trading-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow-premium);
+            border-color: var(--primary-color);
+        }
+
+        .trading-card .card-header {
+            padding: 20px 24px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+        }
+        .trading-card .card-header .card-level {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 14px;
+            border-radius: 50px;
+            color: #fff;
+        }
+        .trading-card .card-header .card-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .trading-card .card-body {
+            padding: 0 24px 16px;
+            text-align: center;
+        }
+        .trading-card .card-body .card-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #fff;
+            margin: 0 auto 12px;
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.2);
+            transition: 0.3s;
+        }
+        .trading-card:hover .card-body .card-icon {
+            transform: scale(1.05) rotate(-5deg);
+        }
+        .trading-card .card-body h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        .trading-card .card-body .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .trading-card .card-body .card-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-top: 8px;
+        }
+
+        .trading-card .card-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            padding: 12px 20px;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .trading-card .card-stats .stat {
+            text-align: center;
+        }
+        .trading-card .card-stats .stat .stat-value {
+            display: block;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+        .trading-card .card-stats .stat .stat-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .trading-card .card-footer {
+            padding: 12px 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .trading-card .card-footer .card-rarity {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 14px;
+            border-radius: 50px;
+        }
+        .trading-card .card-footer .btn-collect {
+            padding: 6px 20px;
+            border: none;
+            border-radius: 50px;
+            background: var(--primary-gradient);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .trading-card .card-footer .btn-collect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        /* ====== إحصائيات المجموعة ====== */
+        .collection-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            max-width: 700px;
+            margin: -30px auto 0;
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+        }
+        .collection-stat-item {
+            background: var(--bg-card);
+            padding: 14px 16px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease;
+        }
+        .collection-stat-item:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+        .collection-stat-item .number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .collection-stat-item .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .collection-stat-item .icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ====== الفوتر ====== */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px 20px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .footer-logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-light);
+        }
+        .footer-content p {
+            max-width: 600px;
+            margin: 0 auto 16px;
+            font-size: 0.95rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ====== تجاوب ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 16px;
+                border-top: 1px solid var(--glass-border);
+            }
+            nav ul.open { display: flex; }
+            nav ul li a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            .cards-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+            .collection-stats { grid-template-columns: 1fr 1fr; margin-top: -20px; }
+            .trading-card .card-stats { grid-template-columns: 1fr 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .collection-stats { grid-template-columns: 1fr 1fr; }
+            .trading-card .card-body .card-icon { width: 64px; height: 64px; font-size: 1.8rem; }
+            .trading-card .card-header { padding: 16px 16px 12px; }
+            .trading-card .card-body { padding: 0 16px 12px; }
+            .trading-card .card-footer { padding: 10px 16px 16px; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        }
+
+        /* ====== الوضع الليلي ====== */
+        [data-theme="dark"] .trading-card {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .collection-stat-item {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        [data-theme="dark"] .trading-card .card-stats {
+            background: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ====== شريط الإعلانات ====== -->
+     <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+        <div class="urgent-ticker-text">
+            <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
+            <span class="announcement-text">
+                🎉 خصم 20% للتسجيل المبكر | 👨‍👩‍👧 خصم 15% للأشقاء | 🚌 توصيل مجاني للمناطق القريبة | 🎁 حقيبة مدرسية مجانية لأول 30 طفلاً | ⭐ التسجيل مفتوح للعام الدراسي الجديد 2026 - 2027
+            </span>
+        </div>
+    </div>
+
+    <!-- ====== الهيدر ====== -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="programs.html" class="active">البرامج</a></li>
+                <li><a href="activities.html">الأنشطة</a></li>
+                <li><a href="gallery.html">المعرض</a></li>
+                <li><a href="staff.html">الكادر</a></li>
+                <li><a href="pricing.html">الأسعار</a></li>
+                <li><a href="registration.html">التسجيل</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-btn" aria-label="تبديل الوضع الليلي">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== هيرو ====== -->
+        <section class="programs-hero">
+            <div class="programs-hero-content">
+                <h1>📚 ألبوم <span>برامجنا</span></h1>
+                <p>مجموعة من البطاقات التذكارية لكل برنامج تعليمي، اكتشفها واجمعها!</p>
+                <div class="collect-badge">
+                    <i class="fa-regular fa-star"></i>
+                    6 برامج | اكتشفها كلها
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== إحصائيات المجموعة ====== -->
+        <div class="collection-stats">
+            <div class="collection-stat-item">
+                <span class="icon">📚</span>
+                <div class="number" data-count="6">0</div>
+                <div class="label">برامج تعليمية</div>
+            </div>
+            <div class="collection-stat-item">
+                <span class="icon">👩‍🏫</span>
+                <div class="number" data-count="15">0</div>
+                <div class="label">معلمة متخصصة</div>
+            </div>
+            <div class="collection-stat-item">
+                <span class="icon">🌟</span>
+                <div class="number" data-count="200">0</div>
+                <div class="label">طفل مستفيد</div>
+            </div>
+            <div class="collection-stat-item">
+                <span class="icon">🏆</span>
+                <div class="number" data-count="97">0%</div>
+                <div class="label">تقدم ملحوظ</div>
+            </div>
+        </div>
+
+        <!-- ====== مجموعة البطاقات ====== -->
+        <section class="cards-collection">
+            <div class="collection-header">
+                <h2>🎴 بطاقات البرامج</h2>
+                <p>كل بطاقة تحوي برنامجاً تعليمياً مميزاً، اجمعها كلها!</p>
+            </div>
+
+            <div class="cards-grid">
+
+                <!-- بطاقة 1 - العربية -->
+                <div class="trading-card">
+                    <div class="card-header">
+                        <span class="card-level" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">أساسي</span>
+                        <span class="card-number">#001</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                        </div>
+                        <h3>اللغة العربية</h3>
+                        <span class="card-subtitle">📖 قراءة وكتابة</span>
+                        <p class="card-description">تأسيس متين في قراءة وكتابة الحروف العربية باستخدام القصص التفاعلية والألعاب اللغوية.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">4.9</span>
+                            <span class="stat-label">⭐ تقييم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">60</span>
+                            <span class="stat-label">⏱️ دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">👦 طفل</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-rarity" style="background:rgba(79,70,229,0.1);color:#4f46e5;">★ شائع</span>
+                        <button class="btn-collect">اكتشف</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 2 - الرياضيات -->
+                <div class="trading-card">
+                    <div class="card-header">
+                        <span class="card-level" style="background: linear-gradient(135deg, #ec4899, #db2777);">متقدم</span>
+                        <span class="card-number">#002</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h3>العبقري الصغير</h3>
+                        <span class="card-subtitle">🧮 حساب ذهني</span>
+                        <p class="card-description">تعليم الأرقام والمفاهيم الحسابية بأسلوب ذهني ينمي التفكير المنطقي والتحليلي.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">4.8</span>
+                            <span class="stat-label">⭐ تقييم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">50</span>
+                            <span class="stat-label">⏱️ دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">12</span>
+                            <span class="stat-label">👦 طفل</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-rarity" style="background:rgba(219,39,119,0.1);color:#db2777;">★★ نادر</span>
+                        <button class="btn-collect">اكتشف</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 3 - الإنجليزية -->
+                <div class="trading-card">
+                    <div class="card-header">
+                        <span class="card-level" style="background: linear-gradient(135deg, #f59e0b, #d97706);">مميز</span>
+                        <span class="card-number">#003</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <h3>اللغة الإنجليزية</h3>
+                        <span class="card-subtitle">🇬🇧 محادثة ونطق</span>
+                        <p class="card-description">محادثة ونطق سليم مع معلمات متخصصات لتمكين الطفل من التعبير بطلاقة.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">4.9</span>
+                            <span class="stat-label">⭐ تقييم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">55</span>
+                            <span class="stat-label">⏱️ دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">14</span>
+                            <span class="stat-label">👦 طفل</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-rarity" style="background:rgba(245,158,11,0.1);color:#d97706;">★ شائع</span>
+                        <button class="btn-collect">اكتشف</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 4 - التكنولوجيا -->
+                <div class="trading-card">
+                    <div class="card-header">
+                        <span class="card-level" style="background: linear-gradient(135deg, #10b981, #059669);">مستقبلي</span>
+                        <span class="card-number">#004</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3>التكنولوجيا والذكاء الرقمي</h3>
+                        <span class="card-subtitle">💻 برمجة وتفاعل</span>
+                        <p class="card-description">مقدمة مبسطة لأساسيات التقنية والمنطق البرمجي من خلال ألعاب تفاعلية.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">4.7</span>
+                            <span class="stat-label">⭐ تقييم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">45</span>
+                            <span class="stat-label">⏱️ دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">10</span>
+                            <span class="stat-label">👦 طفل</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-rarity" style="background:rgba(16,185,129,0.1);color:#059669;">★★★ أسطوري</span>
+                        <button class="btn-collect">اكتشف</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 5 - الفنون -->
+                <div class="trading-card">
+                    <div class="card-header">
+                        <span class="card-level" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">إبداعي</span>
+                        <span class="card-number">#005</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h3>الفنون والورش الإبداعية</h3>
+                        <span class="card-subtitle">🎨 رسم وتلوين</span>
+                        <p class="card-description">تنمية الحس الفني عبر الرسم والأشغال اليدوية والمسرح التربوي الهادف.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">4.9</span>
+                            <span class="stat-label">⭐ تقييم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">60</span>
+                            <span class="stat-label">⏱️ دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">15</span>
+                            <span class="stat-label">👦 طفل</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-rarity" style="background:rgba(139,92,246,0.1);color:#7c3aed;">★ شائع</span>
+                        <button class="btn-collect">اكتشف</button>
+                    </div>
+                </div>
+
+                <!-- بطاقة 6 - الذكاء العاطفي -->
+                <div class="trading-card">
+                    <div class="card-header">
+                        <span class="card-level" style="background: linear-gradient(135deg, #f472b6, #ec4899);">نفسي</span>
+                        <span class="card-number">#006</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f472b6, #ec4899);">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                        </div>
+                        <h3>تنمية الذكاء العاطفي</h3>
+                        <span class="card-subtitle">❤️ ثقة وتواصل</span>
+                        <p class="card-description">أنشطة جماعية لغرس الثقة بالنفس ومهارات التواصل الفعال مع الآخرين.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">4.8</span>
+                            <span class="stat-label">⭐ تقييم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">50</span>
+                            <span class="stat-label">⏱️ دقيقة</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">12</span>
+                            <span class="stat-label">👦 طفل</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-rarity" style="background:rgba(244,114,182,0.1);color:#ec4899;">★★ نادر</span>
+                        <button class="btn-collect">اكتشف</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== الفوتر ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <p>نحن نؤمن بأن كل طفل هو مبدع بطبعه، ونعمل على توفير البيئة المثالية لصقل مواهبه وتنمية قدراته.</p>
+            <div class="social-links">
+                <a href="#" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="يوتيوب"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2026 روضة جيل الإبداع | تم التطوير بكل إتقان</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // ================================================================
+        //  سكريبت صفحة البرامج - بطاقات تذكارية
+        // ================================================================
+        (function() {
+            'use strict';
+
+            // ====== 1. شريط التقدم ======
+            var progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+            }
+
+            // ====== 2. الوضع الليلي ======
+            var darkToggle = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (darkToggle) {
+                var icon = darkToggle.querySelector('i');
+                if (currentTheme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                } else {
+                    icon.className = 'fas fa-moon';
+                }
+
+                darkToggle.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    if (newTheme === 'dark') {
+                        icon.className = 'fas fa-sun';
+                    } else {
+                        icon.className = 'fas fa-moon';
+                    }
+                });
+            }
+
+            // ====== 3. زر القائمة المتنقلة ======
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+            }
+
+            // ====== 4. عدادات إحصائية ======
+            var statNumbers = document.querySelectorAll('.collection-stat-item .number');
+
+            var statObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        var target = parseInt(el.dataset.count);
+                        var isPercent = el.textContent.includes('%');
+                        var current = 0;
+                        var step = Math.max(1, Math.floor(target / 40));
+
+                        function updateCounter() {
+                            current += step;
+                            if (current < target) {
+                                el.textContent = current + (isPercent ? '%' : '');
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                el.textContent = target + (isPercent ? '%' : '');
+                            }
+                        }
+                        updateCounter();
+                        statObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statNumbers.forEach(function(el) {
+                statObserver.observe(el);
+            });
+
+            // ====== 5. تأثيرات الظهور ======
+            var appearElements = document.querySelectorAll('.trading-card, .collection-stat-item');
+
+            var appearObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, index) {
+                    if (entry.isIntersecting) {
+                        setTimeout(function() {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) scale(1)';
+                        }, index * 150);
+                        appearObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            appearElements.forEach(function(el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(40px) scale(0.95)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                appearObserver.observe(el);
+            });
+
+            // ====== 6. أزرار الاكتشاف ======
+            var collectBtns = document.querySelectorAll('.btn-collect');
+            collectBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var card = this.closest('.trading-card');
+                    var title = card.querySelector('h3').textContent;
+                    var rarity = card.querySelector('.card-rarity').textContent.trim();
+
+                    var messages = {
+                        '★ شائع': '🌟 برنامج رائع!',
+                        '★★ نادر': '🔥 برنامج مميز!',
+                        '★★★ أسطوري': '⚡ برنامج أسطوري!'
+                    };
+
+                    var emoji = messages[rarity] || '🌟';
+
+                    alert(emoji + ' تم اكتشاف برنامج "' + title + '"!\n' +
+                        rarity + '\n\nسجل طفلك الآن واستمتع بالتعلم!');
+                });
+            });
+
+            // ====== 7. تأثير التقليب عند النقر ======
+            var cards = document.querySelectorAll('.trading-card');
+            cards.forEach(function(card) {
+                card.addEventListener('click', function(e) {
+                    // منع التنفيذ إذا كان الضغط على الزر
+                    if (e.target.classList.contains('btn-collect')) return;
+
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(function() {
+                        card.style.transform = '';
+                    }, 200);
+                });
+            });
+
+            console.log('✅ صفحة البرامج - بطاقات تذكارية جاهزة!');
+        })();
+    </script>
+
+</body>
+</html>

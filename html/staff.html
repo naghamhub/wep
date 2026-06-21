@@ -1,0 +1,1014 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الكادر التعليمي والإداري | روضة جيل الإبداع</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ====== إعدادات عامة ====== */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --secondary-color: #db2777;
+            --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.12);
+            --shadow-premium: 0 30px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 10000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ====== شريط الإعلانات ====== */
+        .urgent-ticker-container {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+        }
+        .urgent-ticker-text {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: tickerLoop 25s linear infinite;
+        }
+        @keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+        .urgent-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .urgent-badge i { margin-left: 6px; }
+        .announcement-text {
+            display: inline-block;
+            padding-right: 20px;
+            flex-shrink: 0;
+        }
+        .announcement-text i { margin-left: 4px; }
+
+        /* ====== الهيدر ====== */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* ====== هيرو الكادر ====== */
+        .staff-hero {
+            position: relative;
+            padding: 60px 24px;
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+        }
+        .staff-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        .staff-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .staff-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+        }
+        .staff-hero h1 span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .staff-hero p {
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 16px auto 0;
+            font-size: 1.1rem;
+        }
+
+        /* ====== إحصائيات الكادر ====== */
+        .staff-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: -30px auto 0;
+            position: relative;
+            z-index: 3;
+            padding: 0 20px;
+        }
+        .staff-stat-item {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease;
+        }
+        .staff-stat-item:hover {
+            transform: translateY(-6px);
+        }
+        .staff-stat-item .number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .staff-stat-item .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ====== أزرار التصفية ====== */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 30px 0 40px;
+        }
+        .filter-btn {
+            padding: 10px 28px;
+            border: 2px solid var(--glass-border);
+            background: var(--bg-card);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        /* ====== بطاقات الكادر 3D ====== */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .staff-card-3d {
+            perspective: 1000px;
+            height: 380px;
+            cursor: pointer;
+        }
+        .staff-card-3d-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+        .staff-card-3d.flipped .staff-card-3d-inner {
+            transform: rotateY(180deg);
+        }
+
+        .staff-card-front, .staff-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            padding: 30px 25px;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .staff-card-back {
+            transform: rotateY(180deg);
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .staff-card-back h4 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .staff-card-back p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .staff-card-back .staff-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .staff-card-back .staff-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .staff-card-back .staff-social a:hover {
+            background: #fff;
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .staff-card-front .staff-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--glass-border);
+            margin-bottom: 16px;
+            flex-shrink: 0;
+            transition: all 0.4s ease;
+        }
+        .staff-card-front .staff-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .staff-card-front h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .staff-card-front .staff-role {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .staff-card-front .staff-role i {
+            margin-left: 6px;
+        }
+        .staff-card-front .staff-tag {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary-color);
+            margin-top: 6px;
+        }
+        .staff-card-front .flip-hint {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+        .staff-card-front .flip-hint i {
+            margin-left: 4px;
+        }
+
+        /* ====== شهادات المعلمات ====== */
+        .certificates-section {
+            padding: 60px 24px;
+            background: var(--bg-primary);
+        }
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .certificate-item {
+            background: var(--bg-card);
+            padding: 20px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+        .certificate-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .certificate-item i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        .certificate-item .cert-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .certificate-item .cert-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ====== الفوتر ====== */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px 20px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .footer-logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-light);
+        }
+        .footer-content p {
+            max-width: 600px;
+            margin: 0 auto 16px;
+            font-size: 0.95rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ====== تجاوب ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 16px;
+                border-top: 1px solid var(--glass-border);
+            }
+            nav ul.open { display: flex; }
+            nav ul li a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            .staff-card-3d { height: 340px; }
+            .staff-stats {
+                grid-template-columns: 1fr 1fr;
+                margin-top: -20px;
+            }
+            .staff-card-front .staff-image {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .staff-card-3d { height: 320px; }
+            .staff-stats { grid-template-columns: 1fr 1fr; }
+            .filter-buttons { gap: 8px; }
+            .filter-btn { padding: 8px 16px; font-size: 0.8rem; }
+        }
+
+        /* ====== الوضع الليلي ====== */
+        [data-theme="dark"] .staff-card-front,
+        [data-theme="dark"] .staff-card-back {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .staff-stat-item {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .certificate-item {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        [data-theme="dark"] .staff-card-back {
+            background: var(--primary-gradient);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ====== شريط الإعلانات ====== -->
+     <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+        <div class="urgent-ticker-text">
+            <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
+            <span class="announcement-text">
+                🎉 خصم 20% للتسجيل المبكر | 👨‍👩‍👧 خصم 15% للأشقاء | 🚌 توصيل مجاني للمناطق القريبة | 🎁 حقيبة مدرسية مجانية لأول 30 طفلاً | ⭐ التسجيل مفتوح للعام الدراسي الجديد 2026 - 2027
+            </span>
+        </div>
+    </div>
+
+    <!-- ====== الهيدر ====== -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="programs.html">البرامج</a></li>
+                <li><a href="activities.html">الأنشطة</a></li>
+                <li><a href="gallery.html">المعرض</a></li>
+                <li><a href="staff.html" class="active">الكادر</a></li>
+                <li><a href="pricing.html">الأسعار</a></li>
+                <li><a href="registration.html">التسجيل</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-btn" aria-label="تبديل الوضع الليلي">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== هيرو الكادر ====== -->
+        <section class="staff-hero">
+            <div class="staff-hero-content">
+                <h1>فريق <span>جيل الإبداع</span></h1>
+                <p>نخبة من التربويين المتخصصين والشغوفين برعاية الطفولة المبكرة وتوجيه طاقاتهم نحو الإبداع والتميز.</p>
+            </div>
+        </section>
+
+        <!-- ====== إحصائيات الكادر ====== -->
+        <div class="staff-stats">
+            <div class="staff-stat-item">
+                <div class="number" data-count="25">0</div>
+                <div class="label">معلمة ومربية</div>
+            </div>
+            <div class="staff-stat-item">
+                <div class="number" data-count="15">0</div>
+                <div class="label">سنة خبرة</div>
+            </div>
+            <div class="staff-stat-item">
+                <div class="number" data-count="6">0</div>
+                <div class="label">تخصصات متنوعة</div>
+            </div>
+            <div class="staff-stat-item">
+                <div class="number" data-count="98">0%</div>
+                <div class="label">رضا أولياء الأمور</div>
+            </div>
+        </div>
+
+        <!-- ====== أزرار التصفية ====== -->
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">الكل</button>
+                <button class="filter-btn" data-filter="management">الإدارة</button>
+                <button class="filter-btn" data-filter="teacher">معلمات</button>
+                <button class="filter-btn" data-filter="support">دعم تربوي</button>
+            </div>
+        </div>
+
+        <!-- ====== بطاقات الكادر ====== -->
+        <section class="container">
+            <div class="staff-grid" id="staffGrid">
+
+                <!-- مديرة الروضة -->
+                <div class="staff-card-3d" data-category="management">
+                    <div class="staff-card-3d-inner">
+                        <div class="staff-card-front">
+                            <div class="staff-image">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="مديرة الروضة">
+                            </div>
+                            <h3>أ. منى السالم</h3>
+                            <span class="staff-role"><i class="fa-solid fa-user-tie" style="color:#4f46e5;"></i> المديرة العامة</span>
+                            <span class="staff-tag">🏆 15+ سنة خبرة</span>
+                            <div class="flip-hint"><i class="fa-regular fa-hand-pointer"></i> اضغط للتفاصيل</div>
+                        </div>
+                        <div class="staff-card-back">
+                            <h4>أ. منى السالم</h4>
+                            <p>خبيرة في إدارة المؤسسات التعليمية وتطوير مناهج الطفولة المبكرة. حاصلة على ماجستير في القيادة التربوية.</p>
+                            <div class="staff-social">
+                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الأخصائية النفسية -->
+                <div class="staff-card-3d" data-category="support">
+                    <div class="staff-card-3d-inner">
+                        <div class="staff-card-front">
+                            <div class="staff-image">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" alt="الأخصائية النفسية">
+                            </div>
+                            <h3>د. سارة العلي</h3>
+                            <span class="staff-role"><i class="fa-solid fa-brain" style="color:#db2777;"></i> أخصائية نفسية</span>
+                            <span class="staff-tag">🧠 دكتوراه في علم النفس</span>
+                            <div class="flip-hint"><i class="fa-regular fa-hand-pointer"></i> اضغط للتفاصيل</div>
+                        </div>
+                        <div class="staff-card-back">
+                            <h4>د. سارة العلي</h4>
+                            <p>متخصصة في النطق والذكاء السلوكي، تتابع النمو النفسي للطفل وتبني تقارير الذكاء العاطفي والتواصل الفعال.</p>
+                            <div class="staff-social">
+                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- معلمة العربية -->
+                <div class="staff-card-3d" data-category="teacher">
+                    <div class="staff-card-3d-inner">
+                        <div class="staff-card-front">
+                            <div class="staff-image">
+                                <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=300&q=80" alt="معلمة العربية">
+                            </div>
+                            <h3>المعلمة رانيا أحمد</h3>
+                            <span class="staff-role"><i class="fa-solid fa-book-open-reader" style="color:#4f46e5;"></i> معلمة اللغة العربية</span>
+                            <span class="staff-tag">📚 تأسيس تفاعلي</span>
+                            <div class="flip-hint"><i class="fa-regular fa-hand-pointer"></i> اضغط للتفاصيل</div>
+                        </div>
+                        <div class="staff-card-back">
+                            <h4>المعلمة رانيا أحمد</h4>
+                            <p>متميزة في أساليب التأسيس التفاعلي والقصص المجسمة للأطفال. حاصلة على بكالوريوس في اللغة العربية وآدابها.</p>
+                            <div class="staff-social">
+                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- معلمة الإنجليزية -->
+                <div class="staff-card-3d" data-category="teacher">
+                    <div class="staff-card-3d-inner">
+                        <div class="staff-card-front">
+                            <div class="staff-image">
+                                <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&w=300&q=80" alt="معلمة الإنجليزية">
+                            </div>
+                            <h3>المعلمة جيسيكا ريان</h3>
+                            <span class="staff-role"><i class="fa-solid fa-language" style="color:#db2777;"></i> معلمة اللغة الإنجليزية</span>
+                            <span class="staff-tag">🇬🇧 نطق سليم</span>
+                            <div class="flip-hint"><i class="fa-regular fa-hand-pointer"></i> اضغط للتفاصيل</div>
+                        </div>
+                        <div class="staff-card-back">
+                            <h4>المعلمة جيسيكا ريان</h4>
+                            <p>خبيرة في النطق والمحادثة، تمكين مخارج الحروف الإنجليزية بسلاسة ممتعة من خلال الألعاب والأناشيد.</p>
+                            <div class="staff-social">
+                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- معلمة الرياضيات -->
+                <div class="staff-card-3d" data-category="teacher">
+                    <div class="staff-card-3d-inner">
+                        <div class="staff-card-front">
+                            <div class="staff-image">
+                                <img src="https://images.unsplash.com/photo-1594744803329-e58b31de215f?auto=format&fit=crop&w=300&q=80" alt="معلمة الرياضيات">
+                            </div>
+                            <h3>المعلمة فاطمة عمر</h3>
+                            <span class="staff-role"><i class="fa-solid fa-calculator" style="color:#f59e0b;"></i> معلمة الحساب الذهني</span>
+                            <span class="staff-tag">🧮 عبقرية الرياضيات</span>
+                            <div class="flip-hint"><i class="fa-regular fa-hand-pointer"></i> اضغط للتفاصيل</div>
+                        </div>
+                        <div class="staff-card-back">
+                            <h4>المعلمة فاطمة عمر</h4>
+                            <p>تعتمد استراتيجيات الفك والتركيب لتنمية الذكاء الرياضي والمنطقي لدى الأطفال من خلال الألعاب التفاعلية.</p>
+                            <div class="staff-social">
+                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- معلمة الفنون -->
+                <div class="staff-card-3d" data-category="teacher">
+                    <div class="staff-card-3d-inner">
+                        <div class="staff-card-front">
+                            <div class="staff-image">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80" alt="معلمة الفنون">
+                            </div>
+                            <h3>المعلمة ريم خالد</h3>
+                            <span class="staff-role"><i class="fa-solid fa-palette" style="color:#10b981;"></i> مشرفة الفنون</span>
+                            <span class="staff-tag">🎨 إبداع فني</span>
+                            <div class="flip-hint"><i class="fa-regular fa-hand-pointer"></i> اضغط للتفاصيل</div>
+                        </div>
+                        <div class="staff-card-back">
+                            <h4>المعلمة ريم خالد</h4>
+                            <p>شغوفة باكتشاف المواهب الصغيرة وتطوير مهارات التلوين والمسرح والأشغال اليدوية للأطفال.</p>
+                            <div class="staff-social">
+                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fa-regular fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ====== شهادات وخبرات ====== -->
+        <section class="certificates-section">
+            <h2 style="text-align:center;font-size:1.8rem;font-weight:800;margin-bottom:30px;">
+                <i class="fa-regular fa-certificate" style="color:var(--accent-color);"></i> شهادات وخبرات معلماتنا
+            </h2>
+            <div class="certificates-grid">
+                <div class="certificate-item">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <div class="cert-info">
+                        <h4>دكتوراه في التربية</h4>
+                        <p>3 معلمات حاصلات على الدكتوراه</p>
+                    </div>
+                </div>
+                <div class="certificate-item">
+                    <i class="fa-solid fa-medal"></i>
+                    <div class="cert-info">
+                        <h4>جوائز تربوية</h4>
+                        <p>5 جوائز في مجال التعليم المبكر</p>
+                    </div>
+                </div>
+                <div class="certificate-item">
+                    <i class="fa-solid fa-globe"></i>
+                    <div class="cert-info">
+                        <h4>خبرات دولية</h4>
+                        <p>تدريب في أفضل الجامعات العالمية</p>
+                    </div>
+                </div>
+                <div class="certificate-item">
+                    <i class="fa-solid fa-heart"></i>
+                    <div class="cert-info">
+                        <h4>رعاية نفسية</h4>
+                        <p>جميع المعلمات مدربات على الإسعاف النفسي</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== الفوتر ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <p>نحن نؤمن بأن كل طفل هو مبدع بطبعه، ونعمل على توفير البيئة المثالية لصقل مواهبه وتنمية قدراته.</p>
+            <div class="social-links">
+                <a href="#" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="يوتيوب"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2026 روضة جيل الإبداع | تم التطوير بكل إتقان</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // ================================================================
+        //  سكريبت صفحة الكادر
+        // ================================================================
+        (function() {
+            'use strict';
+
+            // ====== 1. شريط التقدم ======
+            var progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+            }
+
+            // ====== 2. الوضع الليلي ======
+            var darkToggle = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (darkToggle) {
+                var icon = darkToggle.querySelector('i');
+                if (currentTheme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                } else {
+                    icon.className = 'fas fa-moon';
+                }
+
+                darkToggle.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+
+                    if (newTheme === 'dark') {
+                        icon.className = 'fas fa-sun';
+                    } else {
+                        icon.className = 'fas fa-moon';
+                    }
+                });
+            }
+
+            // ====== 3. زر القائمة المتنقلة ======
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+            }
+
+            // ====== 4. أزرار التصفية ======
+            var filterBtns = document.querySelectorAll('.filter-btn');
+            var staffCards = document.querySelectorAll('.staff-card-3d');
+
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+
+                    var filter = this.dataset.filter;
+
+                    staffCards.forEach(function(card) {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                            setTimeout(function() {
+                                card.style.opacity = '1';
+                                card.style.transform = 'scale(1)';
+                            }, 50);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'scale(0.8)';
+                            setTimeout(function() {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+
+            // ====== 5. بطاقات 3D قابلة للقلب ======
+            var cards3d = document.querySelectorAll('.staff-card-3d');
+
+            cards3d.forEach(function(card) {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                });
+            });
+
+            // ====== 6. عدادات إحصائية ======
+            var statNumbers = document.querySelectorAll('.staff-stat-item .number');
+
+            var statObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        var target = parseInt(el.dataset.count);
+                        var isPercent = el.textContent.includes('%');
+                        var current = 0;
+                        var step = Math.max(1, Math.floor(target / 40));
+
+                        function updateCounter() {
+                            current += step;
+                            if (current < target) {
+                                el.textContent = current + (isPercent ? '%' : '');
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                el.textContent = target + (isPercent ? '%' : '');
+                            }
+                        }
+                        updateCounter();
+                        statObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statNumbers.forEach(function(el) {
+                statObserver.observe(el);
+            });
+
+            // ====== 7. تأثيرات الظهور ======
+            var appearElements = document.querySelectorAll('.staff-card-3d, .certificate-item, .staff-stat-item');
+
+            var appearObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, index) {
+                    if (entry.isIntersecting) {
+                        setTimeout(function() {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        appearObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            appearElements.forEach(function(el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                appearObserver.observe(el);
+            });
+
+            console.log('✅ صفحة الكادر المبتكرة جاهزة!');
+        })();
+    </script>
+
+</body>
+</html>

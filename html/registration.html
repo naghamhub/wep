@@ -1,0 +1,1498 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب التسجيل الإلكتروني | روضة جيل الإبداع</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ====== إعدادات عامة ====== */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --secondary-color: #db2777;
+            --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.12);
+            --shadow-premium: 0 30px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 10000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ====== شريط الإعلانات ====== */
+        .urgent-ticker-container {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+        }
+        .urgent-ticker-text {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: tickerLoop 25s linear infinite;
+        }
+         @keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+        .urgent-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .urgent-badge i { margin-left: 6px; }
+        .announcement-text {
+            display: inline-block;
+            padding-right: 20px;
+            flex-shrink: 0;
+        }
+        .announcement-text i { margin-left: 4px; }
+
+        /* ====== الهيدر ====== */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+            transition: 0.3s;
+        }
+        header.scrolled {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            transition: 0.3s;
+        }
+        .menu-toggle:hover {
+            color: var(--primary-color);
+        }
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* ====== هيرو التسجيل ====== */
+        .registration-hero {
+            position: relative;
+            padding: 50px 24px 60px;
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+        }
+        .registration-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 50%);
+        }
+        .registration-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .registration-hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 900;
+        }
+        .registration-hero h1 span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .registration-hero p {
+            opacity: 0.9;
+            max-width: 550px;
+            margin: 10px auto 0;
+            font-size: 1rem;
+        }
+        .registration-hero .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .registration-hero .hero-badge i {
+            color: var(--accent-color);
+            margin-left: 8px;
+        }
+
+        /* ====== إحصائيات سريعة ====== */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            max-width: 700px;
+            margin: -30px auto 0;
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+        }
+        .quick-stat-item {
+            background: var(--bg-card);
+            padding: 14px 16px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .quick-stat-item:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: var(--shadow-premium);
+        }
+        .quick-stat-item .number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .quick-stat-item .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .quick-stat-item .icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ====== نموذج التسجيل ====== */
+        .registration-section {
+            padding: 60px 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .registration-section .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .registration-section .section-header h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            position: relative;
+            display: inline-block;
+        }
+        .registration-section .section-header h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 8px auto 0;
+            border-radius: 10px;
+        }
+        .registration-section .section-header p {
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .registration-form-wrapper {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* ====== شريط التقدم في النموذج ====== */
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .form-progress::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--glass-border);
+            z-index: 0;
+        }
+        .form-progress::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            z-index: 0;
+            width: calc(var(--progress, 0) * 1%);
+            transition: width 0.5s ease;
+        }
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 1;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--text-muted);
+            transition: all 0.4s ease;
+        }
+        .progress-step.active .step-number {
+            background: var(--primary-gradient);
+            border-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        }
+        .step-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .progress-step.active .step-label {
+            color: var(--primary-color);
+        }
+
+        /* ====== خطوات النموذج ====== */
+        .form-step {
+            display: none;
+            animation: fadeSlideIn 0.5s ease;
+        }
+        .form-step.active {
+            display: block;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-step h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+        .form-step h3 i {
+            color: var(--primary-color);
+            margin-left: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .form-group .required {
+            color: #ef4444;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            font-family: inherit;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+        .error-message {
+            display: none;
+            color: #ef4444;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        input.error, select.error, textarea.error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .form-navigation .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .form-navigation .btn-primary {
+            background: var(--primary-gradient);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        }
+        .form-navigation .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(79, 70, 229, 0.4);
+        }
+        .form-navigation .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--glass-border);
+        }
+        .form-navigation .btn-secondary:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        .form-navigation .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn {
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .form-note {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 16px;
+            font-weight: 500;
+        }
+
+        /* ====== التأكيد ====== */
+        .confirmation-box {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+        }
+        .confirmation-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+        .confirmation-summary {
+            text-align: right;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        .confirmation-summary h4 {
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.95rem;
+        }
+        .summary-label {
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        .summary-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .confirmation-terms {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .confirmation-terms a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            justify-content: center;
+        }
+        .checkbox-container input {
+            display: none;
+        }
+        .checkmark {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--glass-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .checkbox-container input:checked + .checkmark {
+            background: var(--primary-gradient);
+            border-color: var(--primary-color);
+        }
+        .checkbox-container input:checked + .checkmark::after {
+            content: '✓';
+            color: #fff;
+            font-weight: 900;
+        }
+        #termsError {
+            display: none;
+            text-align: center;
+            margin-top: 8px;
+            color: #ef4444;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ====== رسالة النجاح ====== */
+        .success-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+        .success-message h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        .success-message p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ====== الفوتر ====== */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px 20px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .footer-logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-light);
+        }
+        .footer-content p {
+            max-width: 600px;
+            margin: 0 auto 16px;
+            font-size: 0.95rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ====== زر العودة للأعلى ====== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: #fff;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            transform: scale(1.1) translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        /* ====== تجاوب ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 16px;
+                border-top: 1px solid var(--glass-border);
+                align-items: center;
+            }
+            nav ul.open { display: flex; }
+            nav ul li a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr 1fr;
+                margin-top: -20px;
+            }
+            .registration-form-wrapper {
+                padding: 24px 16px;
+            }
+            .form-progress {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            .form-progress::before { display: none; }
+            .form-progress::after { display: none; }
+            .progress-step {
+                flex-direction: row;
+                gap: 12px;
+                width: 100%;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-navigation {
+                flex-direction: column;
+            }
+            .form-navigation .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            .summary-item {
+                flex-direction: column;
+                gap: 2px;
+                padding: 8px 0;
+            }
+            .confirmation-box { padding: 10px 0; }
+            .back-to-top { bottom: 16px; left: 16px; width: 44px; height: 44px; font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .quick-stats { grid-template-columns: 1fr 1fr; }
+            .registration-hero h1 { font-size: 1.8rem; }
+            .registration-form-wrapper { padding: 16px 12px; }
+        }
+
+        /* ====== الوضع الليلي ====== */
+        [data-theme="dark"] .registration-form-wrapper {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .quick-stat-item {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        [data-theme="dark"] .confirmation-summary {
+            background: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== شريط التقدم ====== -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ====== شريط الإعلانات ====== -->
+     <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+        <div class="urgent-ticker-text">
+            <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
+            <span class="announcement-text">
+                🎉 خصم 20% للتسجيل المبكر | 👨‍👩‍👧 خصم 15% للأشقاء | 🚌 توصيل مجاني للمناطق القريبة | 🎁 حقيبة مدرسية مجانية لأول 30 طفلاً | ⭐ التسجيل مفتوح للعام الدراسي الجديد 2026 - 2027
+            </span>
+        </div>
+    </div>
+
+    <!-- ====== الهيدر ====== -->
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="programs.html">البرامج</a></li>
+                <li><a href="activities.html">الأنشطة</a></li>
+                <li><a href="gallery.html">المعرض</a></li>
+                <li><a href="staff.html">الكادر</a></li>
+                <li><a href="pricing.html">الأسعار</a></li>
+                <li><a href="registration.html" class="active">التسجيل</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-btn" aria-label="تبديل الوضع الليلي">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== هيرو التسجيل ====== -->
+        <section class="registration-hero">
+            <div class="registration-hero-content">
+                <h1>سجل طفلك <span>الآن</span></h1>
+                <p>احجز مقعداً لطفلك في روضة جيل الإبداع واستمتع بخصومات حصرية</p>
+                <div class="hero-badge">
+                    <i class="fa-regular fa-clock"></i>
+                    العرض محدود | سارع بالتسجيل!
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== إحصائيات سريعة ====== -->
+        <div class="quick-stats">
+            <div class="quick-stat-item">
+                <span class="icon">👦</span>
+                <span class="number" data-count="156">0</span>
+                <span class="label">طفل مسجل</span>
+            </div>
+            <div class="quick-stat-item">
+                <span class="icon">🎯</span>
+                <span class="number" data-count="24">0</span>
+                <span class="label">مقعد متبقي</span>
+            </div>
+            <div class="quick-stat-item">
+                <span class="icon">⏳</span>
+                <span class="number" data-count="12">0</span>
+                <span class="label">يوم متبقي للخصم</span>
+            </div>
+            <div class="quick-stat-item">
+                <span class="icon">⭐</span>
+                <span class="number" data-count="98">0%</span>
+                <span class="label">رضا أولياء الأمور</span>
+            </div>
+        </div>
+
+        <!-- ====== نموذج التسجيل ====== -->
+        <section class="registration-section">
+            <div class="section-header">
+                <h2>📝 استمارة التسجيل</h2>
+                <p>يرجى ملء كافة البيانات المطلوبة بدقة لتأمين مقعد طفلك</p>
+            </div>
+
+            <div class="registration-form-wrapper">
+                <!-- شريط التقدم -->
+                <div class="form-progress" style="--progress: 0%;">
+                    <div class="progress-step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">بيانات الطفل</span>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">ولي الأمر</span>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label">الخدمات</span>
+                    </div>
+                    <div class="progress-step" data-step="4">
+                        <span class="step-number">4</span>
+                        <span class="step-label">تأكيد</span>
+                    </div>
+                </div>
+
+                <form id="registrationForm" action="#" method="POST" novalidate>
+                    <!-- ====== الخطوة 1: بيانات الطفل ====== -->
+                    <div class="form-step active" data-step="1">
+                        <h3><i class="fa-solid fa-child"></i> معلومات الطفل الأساسية</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="childName">اسم الطفل الكامل <span class="required">*</span></label>
+                                <input type="text" id="childName" required placeholder="أدخل اسم الطفل الثلاثي">
+                                <span class="error-message">يرجى إدخال اسم الطفل</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="childBirthDate">تاريخ الميلاد <span class="required">*</span></label>
+                                <input type="date" id="childBirthDate" required>
+                                <span class="error-message">يرجى اختيار تاريخ الميلاد</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="childGender">الجنس <span class="required">*</span></label>
+                                <select id="childGender" required>
+                                    <option value="">اختر...</option>
+                                    <option value="Male">ذكر</option>
+                                    <option value="Female">أنثى</option>
+                                </select>
+                                <span class="error-message">يرجى اختيار الجنس</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="nationality">الجنسية <span class="required">*</span></label>
+                                <select id="nationality" required>
+                                    <option value="">اختر الجنسية...</option>
+                                    <option value="Jordanian">أردني</option>
+                                    <option value="Palestinian">فلسطيني</option>
+                                    <option value="Syrian">سوري</option>
+                                    <option value="Egyptian">مصري</option>
+                                    <option value="Saudi">سعودي</option>
+                                    <option value="Other">أخرى</option>
+                                </select>
+                                <span class="error-message">يرجى اختيار الجنسية</span>
+                            </div>
+                            <div class="form-group" id="otherNationalityBox" style="display: none;">
+                                <label for="otherNationality">الجنسية الأخرى</label>
+                                <input type="text" id="otherNationality" placeholder="اكتب الجنسية">
+                            </div>
+                            <div class="form-group">
+                                <label for="childStage">المرحلة التعليمية <span class="required">*</span></label>
+                                <select id="childStage" required>
+                                    <option value="">اختر المرحلة...</option>
+                                    <option value="KG1">روضة أولى (KG1) - 3-4 سنوات</option>
+                                    <option value="KG2">روضة ثانية (KG2) - 4-5 سنوات</option>
+                                    <option value="Nursery">الحضانة - 2-3 سنوات</option>
+                                </select>
+                                <span class="error-message">يرجى اختيار المرحلة التعليمية</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="childBloodType">فصيلة الدم (اختياري)</label>
+                                <select id="childBloodType">
+                                    <option value="">غير محدد</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-primary next-step">
+                                التالي <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ====== الخطوة 2: بيانات ولي الأمر ====== -->
+                    <div class="form-step" data-step="2">
+                        <h3><i class="fa-solid fa-user-shield"></i> معلومات ولي الأمر والاتصال</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="parentName">اسم ولي الأمر الكامل <span class="required">*</span></label>
+                                <input type="text" id="parentName" required placeholder="أدخل اسم ولي الأمر">
+                                <span class="error-message">يرجى إدخال اسم ولي الأمر</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentRelation">صلة القرابة <span class="required">*</span></label>
+                                <select id="parentRelation" required>
+                                    <option value="">اختر...</option>
+                                    <option value="Father">الأب</option>
+                                    <option value="Mother">الأم</option>
+                                    <option value="Guardian">وصي / مستند ولاية</option>
+                                </select>
+                                <span class="error-message">يرجى اختيار صلة القرابة</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentPhone">رقم الهاتف الأساسي <span class="required">*</span></label>
+                                <input type="tel" id="parentPhone" required placeholder="07XXXXXXXX">
+                                <span class="error-message">يرجى إدخال رقم هاتف صحيح</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentPhoneAlt">رقم هاتف احتياطي</label>
+                                <input type="tel" id="parentPhoneAlt" placeholder="07XXXXXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label for="parentEmail">البريد الإلكتروني <span class="required">*</span></label>
+                                <input type="email" id="parentEmail" required placeholder="example@email.com">
+                                <span class="error-message">يرجى إدخال بريد إلكتروني صحيح</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentAddress">العنوان <span class="required">*</span></label>
+                                <input type="text" id="parentAddress" required placeholder="المنطقة، الشارع، المبنى">
+                                <span class="error-message">يرجى إدخال العنوان</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentWork">جهة العمل (اختياري)</label>
+                                <input type="text" id="parentWork" placeholder="جهة العمل">
+                            </div>
+                            <div class="form-group">
+                                <label for="parentJob">المسمى الوظيفي (اختياري)</label>
+                                <input type="text" id="parentJob" placeholder="المسمى الوظيفي">
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="fa-solid fa-arrow-right"></i> السابق
+                            </button>
+                            <button type="button" class="btn btn-primary next-step">
+                                التالي <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ====== الخطوة 3: الخدمات الإضافية ====== -->
+                    <div class="form-step" data-step="3">
+                        <h3><i class="fa-solid fa-circle-plus"></i> الخدمات والخيارات الإضافية</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="pricingPlan">الباقة السنوية المفضلة <span class="required">*</span></label>
+                                <select id="pricingPlan" required>
+                                    <option value="">اختر الباقة...</option>
+                                    <option value="Silver">الباقة الفضية - 150 دينار/شهرياً</option>
+                                    <option value="Gold" selected>الباقة الذهبية - 220 دينار/شهرياً ⭐ الأكثر طلباً</option>
+                                    <option value="Diamond">الباقة الماسية - 300 دينار/شهرياً</option>
+                                </select>
+                                <span class="error-message">يرجى اختيار الباقة</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="transportService">خدمة النقل والمواصلات <span class="required">*</span></label>
+                                <select id="transportService" required>
+                                    <option value="">اختر الخيار...</option>
+                                    <option value="No">لا، لا أحتاج لخدمة النقل</option>
+                                    <option value="Yes-TwoWays">نعم، جولة كاملة (ذهاب وإياب)</option>
+                                    <option value="Yes-OneWay">نعم، اتجاه واحد فقط</option>
+                                </select>
+                                <span class="error-message">يرجى اختيار خيار النقل</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="busStop">نقطة الصعود (إذا اخترت النقل)</label>
+                                <input type="text" id="busStop" placeholder="أدخل نقطة الصعود القريبة منك">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="healthNotes">ملاحظات طبية أو سلوكية خاصة بالطفل</label>
+                                <textarea id="healthNotes" rows="4" placeholder="اكتب هنا أي تفاصيل تود إطلاع الكادر التربوي والطبي عليها..."></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="specialNotes">أي ملاحظات إضافية</label>
+                                <textarea id="specialNotes" rows="3" placeholder="أي معلومات إضافية تود إخبارنا بها..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="fa-solid fa-arrow-right"></i> السابق
+                            </button>
+                            <button type="button" class="btn btn-primary next-step">
+                                مراجعة الطلب <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ====== الخطوة 4: التأكيد ====== -->
+                    <div class="form-step" data-step="4">
+                        <h3><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> تأكيد طلب التسجيل</h3>
+                        <div class="confirmation-box">
+                            <div class="confirmation-icon">
+                                <i class="fa-solid fa-file-pen"></i>
+                            </div>
+                            <p class="confirmation-text">
+                                أنت على وشك تقديم طلب تسجيل للعام الدراسي <strong>2026 - 2027</strong>.
+                                يرجى التأكد من صحة جميع البيانات المدخلة قبل الإرسال.
+                            </p>
+                            
+                            <div class="confirmation-summary">
+                                <h4>ملخص البيانات:</h4>
+                                <div class="summary-grid" id="summaryGrid">
+                                    <!-- سيتم تعبئته بواسطة JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="confirmation-terms">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="termsCheck" required>
+                                    <span class="checkmark"></span>
+                                    أوافق على <a href="#" onclick="return false;">شروط وأحكام</a> التسجيل في روضة جيل الإبداع
+                                </label>
+                                <span class="error-message" id="termsError">يجب الموافقة على الشروط والأحكام</span>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary prev-step">
+                                <i class="fa-solid fa-arrow-right"></i> السابق
+                            </button>
+                            <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+                                <i class="fa-solid fa-file-signature"></i> تأكيد وإرسال الطلب
+                            </button>
+                        </div>
+                        <p class="form-note">
+                            <i class="fa-regular fa-circle-check" style="color: var(--success-color);"></i>
+                            سيتم مراجعة الطلب وحجز مقعد مبدئي لطفلك تلقائياً. سيتواصل معكم فريق القبول خلال 24 ساعة.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== زر العودة للأعلى ====== -->
+    <button class="back-to-top" id="backToTop" aria-label="العودة للأعلى">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+    <!-- ====== الفوتر ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <p>نحن نؤمن بأن كل طفل هو مبدع بطبعه، ونعمل على توفير البيئة المثالية لصقل مواهبه وتنمية قدراته.</p>
+            <div class="social-links">
+                <a href="#" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="يوتيوب"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2026 روضة جيل الإبداع | تم التطوير بكل إتقان</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // ================================================================
+        //  سكريبت صفحة التسجيل
+        // ================================================================
+        (function() {
+            'use strict';
+
+            // ====== 1. شريط التقدم ======
+            var progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+            }
+
+            // ====== 2. الهيدر ======
+            var header = document.getElementById('mainHeader');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    header.classList.toggle('scrolled', window.scrollY > 50);
+                });
+            }
+
+            // ====== 3. زر العودة للأعلى ======
+            var backToTop = document.getElementById('backToTop');
+            if (backToTop) {
+                window.addEventListener('scroll', function() {
+                    backToTop.classList.toggle('visible', window.scrollY > 400);
+                });
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // ====== 4. الوضع الليلي ======
+            var darkToggle = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (darkToggle) {
+                var icon = darkToggle.querySelector('i');
+                icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+                darkToggle.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+                });
+            }
+
+            // ====== 5. القائمة المتنقلة ======
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+            }
+
+            // ====== 6. عدادات سريعة ======
+            var statNumbers = document.querySelectorAll('.quick-stat-item .number');
+            var statObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        var target = parseInt(el.dataset.count);
+                        var isPercent = el.textContent.includes('%');
+                        var current = 0;
+                        var step = Math.max(1, Math.floor(target / 40));
+
+                        function update() {
+                            current += step;
+                            if (current < target) {
+                                el.textContent = current + (isPercent ? '%' : '');
+                                requestAnimationFrame(update);
+                            } else {
+                                el.textContent = target + (isPercent ? '%' : '');
+                            }
+                        }
+                        update();
+                        statObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            statNumbers.forEach(function(el) { statObserver.observe(el); });
+
+            // ====== 7. نموذج التسجيل ======
+            var form = document.getElementById('registrationForm');
+            var steps = document.querySelectorAll('.form-step');
+            var progressSteps = document.querySelectorAll('.progress-step');
+            var nextBtns = document.querySelectorAll('.next-step');
+            var prevBtns = document.querySelectorAll('.prev-step');
+            var termsCheck = document.getElementById('termsCheck');
+            var termsError = document.getElementById('termsError');
+            var currentStep = 1;
+            var totalSteps = steps.length;
+
+            function showStep(step) {
+                steps.forEach(function(s) { s.classList.remove('active'); });
+                document.querySelector('.form-step[data-step="' + step + '"]').classList.add('active');
+
+                progressSteps.forEach(function(ps, index) {
+                    ps.classList.toggle('active', index + 1 === step);
+                });
+
+                var progress = ((step - 1) / (totalSteps - 1)) * 100;
+                document.querySelector('.form-progress').style.setProperty('--progress', progress + '%');
+
+                currentStep = step;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function validateStep(step) {
+                var currentEl = document.querySelector('.form-step[data-step="' + step + '"]');
+                var inputs = currentEl.querySelectorAll('input[required], select[required], textarea[required]');
+                var isValid = true;
+
+                inputs.forEach(function(input) {
+                    var errorMsg = input.parentElement.querySelector('.error-message');
+                    if (errorMsg) errorMsg.style.display = 'none';
+                    input.classList.remove('error');
+
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('error');
+                        if (errorMsg) errorMsg.style.display = 'block';
+                    }
+
+                    if (input.type === 'email' && input.value.trim()) {
+                        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(input.value.trim())) {
+                            isValid = false;
+                            input.classList.add('error');
+                            if (errorMsg) {
+                                errorMsg.textContent = 'يرجى إدخال بريد إلكتروني صحيح';
+                                errorMsg.style.display = 'block';
+                            }
+                        }
+                    }
+
+                    if (input.type === 'tel' && input.value.trim()) {
+                        var phoneRegex = /^[0-9]{10,12}$/;
+                        if (!phoneRegex.test(input.value.trim().replace(/[^0-9]/g, ''))) {
+                            isValid = false;
+                            input.classList.add('error');
+                            if (errorMsg) {
+                                errorMsg.textContent = 'يرجى إدخال رقم هاتف صحيح (10-12 رقم)';
+                                errorMsg.style.display = 'block';
+                            }
+                        }
+                    }
+
+                    if (input.type === 'date' && input.value) {
+                        var birthDate = new Date(input.value);
+                        var today = new Date();
+                        var age = today.getFullYear() - birthDate.getFullYear();
+                        if (age < 2 || (age === 2 && today.getMonth() < birthDate.getMonth())) {
+                            isValid = false;
+                            input.classList.add('error');
+                            if (errorMsg) {
+                                errorMsg.textContent = 'عمر الطفل يجب أن يكون سنتين على الأقل';
+                                errorMsg.style.display = 'block';
+                            }
+                        }
+                    }
+                });
+
+                if (step === totalSteps && !termsCheck.checked) {
+                    isValid = false;
+                    termsError.style.display = 'block';
+                } else {
+                    termsError.style.display = 'none';
+                }
+
+                return isValid;
+            }
+
+            function goToNext() {
+                if (validateStep(currentStep) && currentStep < totalSteps) {
+                    showStep(currentStep + 1);
+                }
+            }
+
+            function goToPrev() {
+                if (currentStep > 1) showStep(currentStep - 1);
+            }
+
+            nextBtns.forEach(function(btn) {
+                btn.addEventListener('click', goToNext);
+            });
+
+            prevBtns.forEach(function(btn) {
+                btn.addEventListener('click', goToPrev);
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    var active = document.querySelector('.form-step.active');
+                    if (active && active.dataset.step != totalSteps) {
+                        e.preventDefault();
+                        goToNext();
+                    }
+                }
+            });
+
+            var stepObserver = new MutationObserver(function() {
+                var active = document.querySelector('.form-step.active');
+                if (active && active.dataset.step == totalSteps) {
+                    populateSummary();
+                }
+            });
+            steps.forEach(function(step) {
+                stepObserver.observe(step, { attributes: true, attributeFilter: ['class'] });
+            });
+
+            termsCheck.addEventListener('change', function() {
+                termsError.style.display = this.checked ? 'none' : 'block';
+            });
+
+            function populateSummary() {
+                var grid = document.getElementById('summaryGrid');
+                var fields = {
+                    'اسم الطفل': document.getElementById('childName')?.value || '-',
+                    'تاريخ الميلاد': document.getElementById('childBirthDate')?.value || '-',
+                    'الجنس': document.getElementById('childGender')?.value === 'Male' ? 'ذكر' : 'أنثى',
+                    'الجنسية': document.getElementById('nationality')?.value || '-',
+                    'المرحلة': document.getElementById('childStage')?.value || '-',
+                    'ولي الأمر': document.getElementById('parentName')?.value || '-',
+                    'صلة القرابة': document.getElementById('parentRelation')?.value || '-',
+                    'الهاتف': document.getElementById('parentPhone')?.value || '-',
+                    'البريد الإلكتروني': document.getElementById('parentEmail')?.value || '-',
+                    'العنوان': document.getElementById('parentAddress')?.value || '-',
+                    'الباقة': document.getElementById('pricingPlan')?.value || '-',
+                    'النقل': document.getElementById('transportService')?.value || '-',
+                };
+
+                var planMap = { 'Silver': 'الباقة الفضية', 'Gold': 'الباقة الذهبية', 'Diamond': 'الباقة الماسية' };
+                if (fields['الباقة'] in planMap) fields['الباقة'] = planMap[fields['الباقة']];
+
+                var transportMap = { 'No': 'لا يحتاج', 'Yes-TwoWays': 'نعم (ذهاب وإياب)', 'Yes-OneWay': 'نعم (اتجاه واحد)' };
+                if (fields['النقل'] in transportMap) fields['النقل'] = transportMap[fields['النقل']];
+
+                grid.innerHTML = '';
+                for (var key in fields) {
+                    var value = fields[key];
+                    if (value && value !== '-' && value !== 'اختر...' && value !== 'اختر الباقة...' && value !== 'اختر الخيار...') {
+                        var div = document.createElement('div');
+                        div.className = 'summary-item';
+                        div.innerHTML = '<span class="summary-label">' + key + ':</span><span class="summary-value">' + value + '</span>';
+                        grid.appendChild(div);
+                    }
+                }
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var allValid = true;
+                for (var i = 1; i <= totalSteps; i++) {
+                    if (!validateStep(i)) {
+                        allValid = false;
+                        showStep(i);
+                        break;
+                    }
+                }
+
+                if (allValid) {
+                    var btn = document.querySelector('.submit-btn');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+
+                    setTimeout(function() {
+                        var wrapper = document.querySelector('.registration-form-wrapper');
+                        wrapper.innerHTML = `
+                            <div class="success-message">
+                                <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                <h2>✅ تم تقديم طلب التسجيل بنجاح!</h2>
+                                <p>شكراً لتسجيلكم في روضة جيل الإبداع. سنقوم بمراجعة طلبكم والتواصل معكم خلال 24 ساعة.</p>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 16px;">
+                                    <i class="fa-regular fa-envelope"></i> تم إرسال نسخة من الطلب إلى بريدكم الإلكتروني
+                                </p>
+                                <a href="index.html" class="btn btn-primary" style="margin-top: 24px; display: inline-block; padding: 12px 36px; border-radius: 50px; background: var(--primary-gradient); color: #fff; text-decoration: none; font-weight: 700;">
+                                    <i class="fa-solid fa-house"></i> العودة للرئيسية
+                                </a>
+                            </div>
+                        `;
+                    }, 1500);
+                }
+            });
+
+            // ====== إظهار حقل الجنسية الأخرى ======
+            var nationalitySelect = document.getElementById('nationality');
+            var otherBox = document.getElementById('otherNationalityBox');
+            if (nationalitySelect && otherBox) {
+                nationalitySelect.addEventListener('change', function() {
+                    otherBox.style.display = this.value === 'Other' ? 'block' : 'none';
+                });
+            }
+
+            // ====== تهيئة شريط التقدم ======
+            showStep(1);
+
+            console.log('✅ صفحة التسجيل جاهزة!');
+        })();
+    </script>
+
+</body>
+</html>

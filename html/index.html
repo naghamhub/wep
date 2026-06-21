@@ -1,0 +1,1215 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روضة جيل الإبداع | بناء جيل مبدع للمستقبل</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ====== إعدادات عامة ====== */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --secondary-color: #db2777;
+            --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --shadow-lg: 0 20px 60px rgba(79, 70, 229, 0.12);
+            --shadow-premium: 0 30px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 10000;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* ====== شريط الإعلانات ====== */
+        .urgent-ticker-container {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 700;
+            font-size: 0.95rem;
+            z-index: 1000;
+        }
+        .urgent-ticker-text {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: tickerLoop 25s linear infinite;
+        }
+         @keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+        .urgent-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 16px;
+            border-radius: 50px;
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .urgent-badge i { margin-left: 6px; }
+        .announcement-text {
+            display: inline-block;
+            padding-right: 20px;
+            flex-shrink: 0;
+        }
+        .announcement-text i { margin-left: 4px; }
+
+        /* ====== الهيدر ====== */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+            transition: 0.3s;
+        }
+        header.scrolled {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            transition: 0.3s;
+        }
+        .menu-toggle:hover {
+            color: var(--primary-color);
+        }
+        .dark-mode-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* ====== السلايدر السينمائي ====== */
+        .hero-slider {
+            position: relative;
+            height: calc(100vh - 130px);
+            min-height: 550px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+        .slides-container, .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .slide {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 1;
+        }
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            transition: transform 12s ease-in-out;
+        }
+        .slide.active img {
+            transform: scale(1);
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.3), rgba(30, 27, 75, 0.85));
+            z-index: 3;
+        }
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            z-index: 4;
+            width: 90%;
+            max-width: 800px;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .hero-content h1 span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .hero-buttons .btn {
+            padding: 16px 36px;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .hero-buttons .btn-primary {
+            background: var(--secondary-gradient);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+        }
+        .hero-buttons .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4);
+        }
+        .hero-buttons .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-buttons .btn-secondary:hover {
+            background: #fff;
+            color: var(--text-primary);
+            transform: translateY(-4px);
+        }
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slider-arrow:hover {
+            background: #fff;
+            color: var(--text-primary);
+        }
+        .prev-arrow { right: 20px; }
+        .next-arrow { left: 20px; }
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            gap: 12px;
+        }
+        .slider-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: 0.4s;
+        }
+        .slider-dots span.active {
+            background: #fff;
+            width: 36px;
+            border-radius: 10px;
+        }
+
+        /* ====== عروض خاصة ====== */
+        .offer-banner {
+            background: var(--primary-gradient);
+            padding: 20px 24px;
+            margin: -30px 20px 0;
+            border-radius: 20px;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow-premium);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .offer-banner .offer-text {
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .offer-banner .offer-text i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        .offer-banner .offer-text h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        .offer-banner .offer-text p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        .offer-banner .offer-timer {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: #fff;
+        }
+        .offer-banner .offer-timer .time-unit {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 50px;
+        }
+        .offer-banner .offer-timer .time-unit .num {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+        .offer-banner .offer-timer .time-unit .label {
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+        .offer-banner .offer-btn {
+            background: #fff;
+            color: var(--primary-color);
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .offer-banner .offer-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ====== الأقسام ====== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        /* ====== بطاقات الميزات ====== */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .premium-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .premium-card:hover::before {
+            transform: scaleX(1);
+        }
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-premium);
+        }
+        .card-icon-box {
+            background: var(--primary-gradient);
+            color: #fff;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2);
+            transition: 0.4s;
+        }
+        .premium-card:hover .card-icon-box {
+            transform: scale(1.05) rotate(-5deg);
+        }
+        .premium-card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .premium-card p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        /* ====== الإحصائيات ====== */
+        .stats-section {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border-radius: 40px;
+            color: #fff;
+            padding: 80px 40px;
+            margin: 0 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stats-section .section-title {
+            color: #fff;
+        }
+        .stats-section .section-title::after {
+            background: var(--accent-gradient);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        .stat-card h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0 5px 0;
+        }
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+        .stat-card p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        /* ====== الشهادات ====== */
+        .testimonial-grid {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+        .testimonial-card {
+            background: var(--bg-card);
+            padding: 35px 30px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-premium);
+        }
+        .stars {
+            color: var(--accent-color);
+            margin-bottom: 16px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .parent-info h4 {
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+        .parent-info span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ====== زر العودة للأعلى ====== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: #fff;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            transform: scale(1.1) translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        /* ====== الفوتر ====== */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 40px 24px 20px;
+            margin-top: 40px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .footer-logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary-light);
+        }
+        .footer-content p {
+            max-width: 600px;
+            margin: 0 auto 16px;
+            font-size: 0.95rem;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ====== تأثيرات الظهور ====== */
+        .fade-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .fade-element.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ====== تجاوب ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 16px;
+                border-top: 1px solid var(--glass-border);
+                align-items: center;
+            }
+            nav ul.open { display: flex; }
+            nav ul li a {
+                padding: 10px 20px;
+                width: 100%;
+                text-align: center;
+            }
+            .hero-slider {
+                height: calc(100vh - 160px);
+                min-height: 400px;
+            }
+            .slider-arrow { width: 40px; height: 40px; font-size: 1rem; }
+            .prev-arrow { right: 10px; }
+            .next-arrow { left: 10px; }
+            .offer-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 16px 20px;
+                margin: -20px 12px 0;
+            }
+            .offer-banner .offer-timer .time-unit { min-width: 40px; }
+            .offer-banner .offer-timer .time-unit .num { font-size: 1.1rem; }
+            .stats-section {
+                padding: 60px 20px;
+                margin: 0 12px;
+                border-radius: 24px;
+            }
+            .stats { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .back-to-top { bottom: 16px; left: 16px; width: 44px; height: 44px; font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 2rem; }
+            .hero-content p { font-size: 1rem; }
+            .hero-buttons .btn { padding: 12px 24px; font-size: 0.9rem; }
+            .slider-dots span { width: 10px; height: 10px; }
+            .slider-dots span.active { width: 28px; }
+            .stats { grid-template-columns: 1fr 1fr; }
+            .stat-card h2 { font-size: 2rem; }
+            .offer-banner .offer-text i { font-size: 1.5rem; }
+            .offer-banner .offer-text h3 { font-size: 1rem; }
+        }
+
+        /* ====== الوضع الليلي ====== */
+        [data-theme="dark"] header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        [data-theme="dark"] .premium-card {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+        [data-theme="dark"] .testimonial-card {
+            background: var(--bg-card);
+            border-color: var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== شريط التقدم ====== -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- ====== شريط الإعلانات ====== -->
+    <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+        <div class="urgent-ticker-text">
+            <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
+            <span class="announcement-text">
+                🎉 خصم 20% للتسجيل المبكر | 👨‍👩‍👧 خصم 15% للأشقاء | 🚌 توصيل مجاني للمناطق القريبة | 🎁 حقيبة مدرسية مجانية لأول 30 طفلاً | ⭐ التسجيل مفتوح للعام الدراسي الجديد 2026 - 2027
+            </span>
+        </div>
+    </div>
+
+    <!-- ====== الهيدر ====== -->
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="navMenu">
+                <li><a href="index.html" class="active">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="programs.html">البرامج</a></li>
+                <li><a href="activities.html">الأنشطة</a></li>
+                <li><a href="gallery.html">المعرض</a></li>
+                <li><a href="staff.html">الكادر</a></li>
+                <li><a href="pricing.html">الأسعار</a></li>
+                <li><a href="registration.html">التسجيل</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-btn" aria-label="تبديل الوضع الليلي">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ====== السلايدر السينمائي ====== -->
+        <section class="hero-slider" aria-label="السلايدر الرئيسي">
+            <div class="slides-container">
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1400&q=80" alt="التعلم الحديث">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1400&q=80" alt="الأنشطة الإبداعية">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=80" alt="بيئة آمنة وممتعة">
+                </div>
+            </div>
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h1 class="fade-element">نبني جيلاً <span>مبدعاً</span> للمستقبل</h1>
+                <p class="fade-element">تعليم حديث • بيئة آمنة • أنشطة تفاعلية • تعلم باللعب</p>
+                <div class="hero-buttons fade-element">
+                    <a href="registration.html" class="btn btn-primary">سجل طفلك الآن <i class="fa-solid fa-arrow-left"></i></a>
+                    <a href="about.html" class="btn btn-secondary">تعرف علينا</a>
+                </div>
+            </div>
+            <button class="slider-arrow prev-arrow" aria-label="الصورة السابقة"><i class="fa-solid fa-chevron-right"></i></button>
+            <button class="slider-arrow next-arrow" aria-label="الصورة التالية"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="slider-dots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+            </div>
+        </section>
+
+        <!-- ====== عرض خاص ====== -->
+        <div class="offer-banner">
+            <div class="offer-text">
+                <i class="fa-regular fa-gem"></i>
+                <div>
+                    <h3>🎯 عرض خاص للتسجيل المبكر!</h3>
+                    <p>خصم 20% + حقيبة مدرسية مجانية</p>
+                </div>
+            </div>
+            <div class="offer-timer" id="offerTimer">
+                <div class="time-unit">
+                    <span class="num" id="offerDays">00</span>
+                    <span class="label">يوم</span>
+                </div>
+                <div class="time-unit">
+                    <span class="num" id="offerHours">00</span>
+                    <span class="label">ساعة</span>
+                </div>
+                <div class="time-unit">
+                    <span class="num" id="offerMinutes">00</span>
+                    <span class="label">دقيقة</span>
+                </div>
+                <div class="time-unit">
+                    <span class="num" id="offerSeconds">00</span>
+                    <span class="label">ثانية</span>
+                </div>
+            </div>
+            <a href="registration.html" class="offer-btn">سجل الآن <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+
+        <!-- ====== ميزات الروضة ====== -->
+        <section class="container features-section">
+            <h2 class="section-title">لماذا تختار روضة جيل الإبداع؟</h2>
+            <div class="cards">
+                <div class="card premium-card fade-element">
+                    <div class="card-icon-box"><i class="fa-solid fa-book-open-reader"></i></div>
+                    <h3>تعليم حديث</h3>
+                    <p>مناهج تعليمية عالمية تعتمد على السيكولوجية الحديثة والتعلم باللعب لتنمية ذكاء الطفل الفكري والعاطفي.</p>
+                </div>
+                <div class="card premium-card fade-element">
+                    <div class="card-icon-box"><i class="fa-solid fa-palette"></i></div>
+                    <h3>أنشطة إبداعية</h3>
+                    <p>فنون تشكيلية، مسرح طفل، أعمال يدوية، ومختبرات مصغرة لابتكار حلول تنمي حس الاستكشاف لديهم.</p>
+                </div>
+                <div class="card premium-card fade-element">
+                    <div class="card-icon-box"><i class="fa-solid fa-dumbbell"></i></div>
+                    <h3>أنشطة رياضية</h3>
+                    <p>برامج حركية متكاملة لرفع اللياقة البدنية وتطوير المهارات الحركية الدقيقة وبناء الثقة بالنفس.</p>
+                </div>
+                <div class="card premium-card fade-element">
+                    <div class="card-icon-box"><i class="fa-solid fa-bus"></i></div>
+                    <h3>خدمة النقل الآمن</h3>
+                    <p>أسطول حافلات حديث ومكيف مجهز بأنظمة تتبع ذكية وبمرافقة مشرفات مؤهلات لضمان سلامة طفلك.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== الإحصائيات ====== -->
+        <section class="container stats-section">
+            <h2 class="section-title">إحصائيات ومنجزات الروضة</h2>
+            <div class="stats">
+                <div class="stat-card fade-element">
+                    <div class="stat-icon"><i class="fa-solid fa-child"></i></div>
+                    <h2 data-target="350">0</h2>
+                    <p>طفل مسجل حالياً</p>
+                </div>
+                <div class="stat-card fade-element">
+                    <div class="stat-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <h2 data-target="30">0</h2>
+                    <p>معلمة خبيرة ومختصة</p>
+                </div>
+                <div class="stat-card fade-element">
+                    <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
+                    <h2 data-target="18">0</h2>
+                    <p>سنة من العطاء والتميز</p>
+                </div>
+                <div class="stat-card fade-element">
+                    <div class="stat-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+                    <h2><span data-target="99">0</span>%</h2>
+                    <p>نسبة رضا أولياء الأمور</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== آراء أولياء الأمور ====== -->
+        <section class="container testimonials-section">
+            <h2 class="section-title">ماذا يقول عنا أولياء الأمور؟</h2>
+            <div class="cards testimonial-grid">
+                <div class="card testimonial-card fade-element">
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p>"تجربتي مع الروضة رائعة جداً، الكادر مهتم بأدق التفاصيل التعليمية والنفسية، وابني أصبح يملك مهارات تواصل مدهشة."</p>
+                    <div class="parent-info">
+                        <h4>أبو أحمد</h4>
+                        <span>ولي أمر طفل في التمهيدي</span>
+                    </div>
+                </div>
+                <div class="card testimonial-card fade-element">
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p>"بيئة آمنة كلياً ومحفزة على الإبداع، الأنشطة اليومية المتنوعة ساعدت طفلتي على التخلص من الخجل تماماً."</p>
+                    <div class="parent-info">
+                        <h4>أم ليان</h4>
+                        <span>ولي أمر طفلة في الروضة</span>
+                    </div>
+                </div>
+                <div class="card testimonial-card fade-element">
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p>"الخدمات المقدمة تفوق التوقعات، خاصة برامج التكنولوجيا والذكاء الرقمي. طفلي أصبح يستخدم التكنولوجيا بشكل إيجابي."</p>
+                    <div class="parent-info">
+                        <h4>أبو خالد</h4>
+                        <span>ولي أمر طفل في الروضة الثانية</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== زر العودة للأعلى ====== -->
+    <button class="back-to-top" id="backToTop" aria-label="العودة للأعلى">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+    <!-- ====== الفوتر ====== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>روضة جيل الإبداع</span>
+            </div>
+            <p>نحن نؤمن بأن كل طفل هو مبدع بطبعه، ونعمل على توفير البيئة المثالية لصقل مواهبه وتنمية قدراته.</p>
+            <div class="social-links">
+                <a href="#" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="يوتيوب"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="تويتر"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة &copy; 2026 روضة جيل الإبداع | تم التطوير بكل إتقان</p>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // ================================================================
+        //  سكريبت الصفحة الرئيسية
+        // ================================================================
+        (function() {
+            'use strict';
+
+            // ====== 1. شريط التقدم ======
+            var progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.scrollY;
+                    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    var progress = (scrollTop / docHeight) * 100;
+                    progressBar.style.width = progress + '%';
+                });
+            }
+
+            // ====== 2. الهيدر عند التمرير ======
+            var header = document.getElementById('mainHeader');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 50) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // ====== 3. زر العودة للأعلى ======
+            var backToTop = document.getElementById('backToTop');
+            if (backToTop) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 400) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                });
+
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // ====== 4. الوضع الليلي ======
+            var darkToggle = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (darkToggle) {
+                var icon = darkToggle.querySelector('i');
+                if (currentTheme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                } else {
+                    icon.className = 'fas fa-moon';
+                }
+
+                darkToggle.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    if (newTheme === 'dark') {
+                        icon.className = 'fas fa-sun';
+                    } else {
+                        icon.className = 'fas fa-moon';
+                    }
+                });
+            }
+
+            // ====== 5. زر القائمة المتنقلة ======
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+            }
+
+            // ====== 6. السلايدر ======
+            var slides = document.querySelectorAll('.hero-slider .slide');
+            var dots = document.querySelectorAll('.slider-dots .dot');
+            var prevBtn = document.querySelector('.prev-arrow');
+            var nextBtn = document.querySelector('.next-arrow');
+            var currentSlide = 0;
+            var slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(function(s, i) {
+                    s.classList.toggle('active', i === index);
+                });
+                dots.forEach(function(d, i) {
+                    d.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                showSlide((currentSlide + 1) % slides.length);
+            }
+
+            function prevSlide() {
+                showSlide((currentSlide - 1 + slides.length) % slides.length);
+            }
+
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                startAutoSlide();
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    prevSlide();
+                    resetAutoSlide();
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    nextSlide();
+                    resetAutoSlide();
+                });
+            }
+
+            dots.forEach(function(dot, index) {
+                dot.addEventListener('click', function() {
+                    showSlide(index);
+                    resetAutoSlide();
+                });
+            });
+
+            startAutoSlide();
+
+            // ====== 7. عداد العرض الخاص ======
+            function startOfferCountdown() {
+                var target = new Date('2026-07-01T00:00:00').getTime();
+
+                function update() {
+                    var now = new Date().getTime();
+                    var diff = target - now;
+
+                    if (diff <= 0) {
+                        document.getElementById('offerDays').textContent = '00';
+                        document.getElementById('offerHours').textContent = '00';
+                        document.getElementById('offerMinutes').textContent = '00';
+                        document.getElementById('offerSeconds').textContent = '00';
+                        return;
+                    }
+
+                    var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    document.getElementById('offerDays').textContent = String(days).padStart(2, '0');
+                    document.getElementById('offerHours').textContent = String(hours).padStart(2, '0');
+                    document.getElementById('offerMinutes').textContent = String(minutes).padStart(2, '0');
+                    document.getElementById('offerSeconds').textContent = String(seconds).padStart(2, '0');
+                }
+
+                update();
+                setInterval(update, 1000);
+            }
+            startOfferCountdown();
+
+            // ====== 8. عدادات إحصائية ======
+            var statNumbers = document.querySelectorAll('.stat-card h2, .stat-card h2 span');
+
+            var statObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        var target = parseInt(el.dataset.target);
+                        var isPercent = el.textContent.includes('%');
+                        var current = 0;
+                        var step = Math.max(1, Math.floor(target / 50));
+
+                        function updateCounter() {
+                            current += step;
+                            if (current < target) {
+                                el.textContent = current + (isPercent ? '%' : '');
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                el.textContent = target + (isPercent ? '%' : '');
+                            }
+                        }
+                        updateCounter();
+                        statObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statNumbers.forEach(function(el) {
+                statObserver.observe(el);
+            });
+
+            // ====== 9. تأثيرات الظهور ======
+            var fadeElements = document.querySelectorAll('.fade-element');
+
+            var fadeObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry, index) {
+                    if (entry.isIntersecting) {
+                        setTimeout(function() {
+                            entry.target.classList.add('appear');
+                        }, index * 150);
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(function(el) {
+                fadeObserver.observe(el);
+            });
+
+            console.log('✅ الصفحة الرئيسية جاهزة!');
+        })();
+    </script>
+
+</body>
+</html>
